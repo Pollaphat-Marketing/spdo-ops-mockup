@@ -157,6 +157,8 @@
       <div class="navlbl">ตั้งค่า</div>
       <a><svg viewBox="0 0 24 24"><rect x="1" y="6" width="15" height="11" rx="2"/><path d="M16 9h4l3 3v5h-7z"/><circle cx="5.5" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/></svg>ทะเบียนคนรถ</a>
       <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.3-2.5H9.5l-.3 2.5a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.3 2.5h4.9l.3-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg>ตารางเรท (Rate Card)</a>
+      <div class="navlbl">เอกสาร</div>
+      <a data-s="plan"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>แผนงานพัฒนา</a>
     </div>
     <div class="foot">Prototype · ข้อมูลตัวอย่างจากไฟล์จริง<br>Pollaphat × SPDO · มิ.ย. 2026</div>
   </aside>
@@ -378,20 +380,36 @@
         </div>
       </section>
 
+      <!-- ============ PLAN (proposal) ============ -->
+      <section class="screen" id="plan">
+        <div class="ptitle"><h2>แผนงานพัฒนา</h2><span class="en">Project proposal</span></div>
+        <div class="psub">ข้อเสนอโครงการฉบับเต็ม — อ่านได้ในหน้านี้เลย หรือเปิด/ดาวน์โหลดเป็น PDF</div>
+        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+          <a class="btn" href="plan.html" target="_blank" style="flex:0 0 auto;padding:9px 16px;"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> เปิดเต็มหน้า</a>
+          <a class="btn" href="proposal-spdo.pdf" target="_blank" style="flex:0 0 auto;padding:9px 16px;background:var(--navy);border-color:var(--navy);color:#fff;"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> ดาวน์โหลด PDF</a>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden;background:#fff;">
+          <iframe id="planframe" src="plan.html" title="ข้อเสนอโครงการ SPDO" style="width:100%;border:none;display:block;min-height:1400px;"></iframe>
+        </div>
+      </section>
+
     </div>
   </div>
 </div>
 
 <script>
-  const titles={dash:'แดชบอร์ด',summary:'ใบคุมเที่ยว',entry:'บันทึกรายวัน',reco:'กระทบยอด Settlement',slip:'ใบจ่ายคนรถ'};
+  const titles={dash:'แดชบอร์ด',summary:'ใบคุมเที่ยว',entry:'บันทึกรายวัน',reco:'กระทบยอด Settlement',slip:'ใบจ่ายคนรถ',plan:'แผนงานพัฒนา'};
+  function sizePlan(){try{var f=document.getElementById('planframe');if(f&&f.contentWindow&&f.contentWindow.document&&f.contentWindow.document.documentElement){var h=f.contentWindow.document.documentElement.scrollHeight;if(h>200)f.style.height=(h+24)+'px';}}catch(e){}}
   function go(s){
     if(!document.getElementById(s))s='dash';
     document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id===s));
     document.querySelectorAll('.nav a[data-s]').forEach(a=>a.classList.toggle('on',a.dataset.s===s));
     document.getElementById('toptitle').textContent=titles[s]||'';
     document.querySelector('.content').scrollTop=0;
+    if(s==='plan'){setTimeout(sizePlan,80);setTimeout(sizePlan,450);}
     if(location.hash!=='#'+s)history.replaceState(null,'','#'+s);
   }
+  var pf=document.getElementById('planframe');if(pf)pf.addEventListener('load',sizePlan);
   document.querySelectorAll('[data-s]').forEach(a=>a.addEventListener('click',()=>go(a.dataset.s)));
   go((location.hash||'#dash').slice(1));
 </script>

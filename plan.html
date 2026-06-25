@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="th">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<title>ข้อเสนอระบบ SPDO Delivery Ops & Billing</title>
+<style>
+  :root{
+    --navy:#16243f; --navy2:#23365c; --teal:#0d9488; --teal-soft:#e6f6f4;
+    --orange:#ea6a1e; --red:#c0392b; --red-soft:#fdecea;
+    --ink:#1f2733; --muted:#5b6675; --line:#e2e6ec; --soft:#f5f7fa; --gold:#c79a3a;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Sarabun','IBM Plex Sans Thai','Noto Sans Thai','Thonburi','Tahoma',sans-serif;
+    color:var(--ink); font-size:10.6px; line-height:1.62; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  @page{ size:A4; margin:15mm 14mm 14mm 14mm; }
+  .page{ page-break-after:always; }
+  .page:last-child{ page-break-after:auto; }
+  h1,h2,h3{ color:var(--navy); margin:0; line-height:1.3; }
+  p{margin:5px 0;}
+  .muted{color:var(--muted);}
+  .small{font-size:9.3px;}
+  .tiny{font-size:8.6px;}
+  code,.mono{font-family:'SF Mono','Menlo','Consolas',monospace; font-size:9px;}
+
+  /* COVER */
+  .cover{ position:relative; height:267mm; display:flex; flex-direction:column;
+    background:linear-gradient(155deg,#16243f 0%, #23365c 55%, #0d9488 140%); color:#fff;
+    padding:24mm 18mm; border-radius:2px; }
+  .cover .kicker{ font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#9fd8d1; font-weight:700; }
+  .cover h1{ color:#fff; font-size:31px; line-height:1.22; margin-top:14px; font-weight:800; }
+  .cover .sub{ font-size:14px; color:#dbe6f5; margin-top:14px; max-width:150mm; }
+  .cover .rule{ height:3px; width:62px; background:var(--orange); margin:20px 0; border-radius:2px;}
+  .cover .meta{ margin-top:auto; display:flex; gap:34px; flex-wrap:wrap; font-size:11px; }
+  .cover .meta b{ display:block; color:#9fd8d1; font-weight:700; font-size:9.5px; letter-spacing:1px; text-transform:uppercase; margin-bottom:3px;}
+  .cover .tagchips{ margin-top:20px; }
+  .cover .chip{ display:inline-block; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25);
+    padding:4px 11px; border-radius:20px; font-size:10px; margin:3px 5px 3px 0; }
+  .cover .conf{ position:absolute; top:24mm; right:18mm; font-size:9px; color:#9fd8d1; border:1px solid rgba(159,216,209,.5); padding:3px 9px; border-radius:4px;}
+
+  /* SECTION HEADERS */
+  .sec{ display:flex; align-items:center; gap:11px; margin:0 0 12px; padding-bottom:9px; border-bottom:2px solid var(--navy); }
+  .sec .num{ background:var(--navy); color:#fff; width:26px; height:26px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; flex:0 0 auto;}
+  .sec h2{ font-size:16px; }
+  .sec .en{ color:var(--teal); font-weight:600; font-size:9.5px; letter-spacing:.5px; }
+  h3.sub3{ font-size:11.6px; color:var(--navy2); margin:13px 0 5px; border-left:3px solid var(--teal); padding-left:8px;}
+
+  /* TABLES */
+  table{ width:100%; border-collapse:collapse; margin:7px 0 10px; }
+  th,td{ border:1px solid var(--line); padding:5px 7px; text-align:left; vertical-align:top; }
+  thead th{ background:var(--navy); color:#fff; font-weight:700; font-size:9.4px; }
+  tbody tr:nth-child(even){ background:var(--soft); }
+  td.c,th.c{text-align:center;} td.r{text-align:right;}
+  .num-badge{ display:inline-block; background:var(--navy); color:#fff; border-radius:50%; width:15px; height:15px; text-align:center; font-size:8.6px; line-height:15px; font-weight:700;}
+
+  /* CALLOUTS */
+  .box{ border-radius:7px; padding:10px 13px; margin:10px 0; page-break-inside:avoid;}
+  .box.problem{ background:var(--red-soft); border-left:4px solid var(--red); }
+  .box.value{ background:var(--teal-soft); border-left:4px solid var(--teal); }
+  .box.note{ background:#fff8e8; border-left:4px solid var(--gold); }
+  .box h4{ margin:0 0 4px; font-size:11px; color:var(--navy);}
+  .box.problem h4{color:var(--red);} .box.value h4{color:#0a6e66;}
+
+  /* ARCH DIAGRAM */
+  .layer{ border-radius:8px; padding:11px 14px; margin:7px 0; color:#fff; page-break-inside:avoid;}
+  .layer .lh{ font-weight:800; font-size:11.5px; letter-spacing:.5px;}
+  .layer .ld{ font-size:9.6px; opacity:.92; margin-top:2px;}
+  .l1{ background:var(--navy);} .l2{ background:var(--teal);} .l3{ background:var(--navy2);}
+  .arrow{ text-align:center; color:var(--muted); font-size:13px; margin:-2px 0; }
+
+  /* FORMULA */
+  .formula{ background:#0f1b30; color:#e7eef9; border-radius:7px; padding:11px 13px; font-family:'SF Mono','Menlo',monospace; font-size:9.2px; line-height:1.85; margin:8px 0; }
+  .formula .k{color:#6fd6c9;} .formula .c{color:#8aa0c2;}
+
+  /* PHASE TIMELINE */
+  .phase{ display:flex; gap:0; margin:8px 0; page-break-inside:avoid; align-items:stretch;}
+  .phase .tag{ flex:0 0 64px; background:var(--navy); color:#fff; border-radius:7px 0 0 7px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:7px 4px; }
+  .phase .tag .pn{ font-weight:800; font-size:13px;} .phase .tag .pe{ font-size:8px; color:#9fd8d1; margin-top:2px; text-align:center;}
+  .phase .body{ flex:1; border:1px solid var(--line); border-left:none; border-radius:0 7px 7px 0; padding:8px 12px; background:#fff;}
+  .phase .body .pt{ font-weight:700; color:var(--navy); font-size:11px;}
+  .phase.mvp .tag{ background:var(--teal);} .phase.mvp .tag .pe{color:#d9f3ef;}
+
+  ul{ margin:4px 0; padding-left:17px;} li{ margin:2px 0;}
+  .two{ display:flex; gap:14px;} .two>div{flex:1;}
+  .kpi{ display:flex; gap:9px; margin:10px 0;}
+  .kpi .k{ flex:1; background:var(--soft); border:1px solid var(--line); border-radius:8px; padding:9px; text-align:center;}
+  .kpi .k .v{ font-size:18px; font-weight:800; color:var(--teal);} .kpi .k .l{ font-size:8.6px; color:var(--muted);}
+  .foot{ margin-top:14px; padding-top:9px; border-top:1px solid var(--line); color:var(--muted); font-size:8.6px; display:flex; justify-content:space-between;}
+  .pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:8.4px;font-weight:700;}
+  .pill.new{background:var(--teal);color:#fff;} .pill.mvp{background:var(--orange);color:#fff;} .pill.later{background:#dfe4ec;color:var(--navy);}
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="page">
+<div class="cover">
+  <div class="conf">CONFIDENTIAL · ข้อเสนอโครงการ</div>
+  <div class="kicker">Software Proposal</div>
+  <h1>ระบบบริหารงานขนส่ง<br>คิดเงิน 2 ฝั่ง &amp; กระทบยอด<br><span style="color:#9fd8d1;font-size:22px;font-weight:700;">SPDO Delivery Ops &amp; Billing System</span></h1>
+  <div class="rule"></div>
+  <div class="sub">ระบบทดแทนไฟล์ Excel รายเดือน สำหรับผู้รับเหมาขนส่ง last-mile (Shopee&nbsp;SPX / Lazada&nbsp;LEX) — แม่นยำ ตรวจสอบได้ และขยายตามจำนวนคนรถได้โดยไม่ต้องสร้างชีตใหม่</div>
+  <div class="tagchips">
+    <span class="chip">▸ ดับ error สูตรที่ต้นตอ</span>
+    <span class="chip">▸ คิดเงิน SPX / SPDO อัตโนมัติ</span>
+    <span class="chip">▸ กระทบยอดกับเงินที่โอนจริง</span>
+    <span class="chip">▸ Scale = เพิ่ม 1 แถว</span>
+  </div>
+  <div class="meta">
+    <div><b>จัดทำเพื่อ</b>SPDO — ผู้รับเหมาขนส่งคนกลาง</div>
+    <div><b>จัดทำโดย</b>Pollaphat (ทีมพัฒนาระบบ)</div>
+    <div><b>วันที่</b>25 มิถุนายน 2026</div>
+    <div><b>สถานะ</b>ข้อเสนอเบื้องต้น (Draft v1)</div>
+  </div>
+</div>
+</div>
+
+<!-- ============ PAGE 1: PROBLEM ============ -->
+<div class="page">
+  <div class="sec"><div class="num">1</div><div><h2>ปัญหาปัจจุบัน &amp; เป้าหมายของระบบ</h2><div class="en">CURRENT PAIN &amp; OBJECTIVES</div></div></div>
+
+  <p>ปัจจุบันงานทั้งหมดคุมด้วย Excel <b>1 ไฟล์ต่อเดือน 33 ชีต</b> (ชีตสรุป “ใบคุมเที่ยว” + ชีตเช็คชื่อ + ชีตรายคน 31 ชีต) จากการตรวจไฟล์จริง พบว่าปัญหาไม่ใช่แค่ “สูตรเยอะ” แต่เป็น<b>ปัญหาเชิงโครงสร้าง</b>ที่ทำให้ตัวเลขเชื่อถือไม่ได้และขยายงานต่อไม่ได้</p>
+
+  <table>
+    <thead><tr><th class="c" style="width:26px;">#</th><th style="width:46%;">อาการที่พบจริง (ยืนยันจากไฟล์)</th><th>ต้นตอที่แท้จริง</th></tr></thead>
+    <tbody>
+      <tr><td class="c"><span class="num-badge">1</span></td><td>สูตร error ~25 จุด (#VALUE!, #REF!) ลามถึงชีตสรุป จน <b>% มาร์จิ้นรวมทั้งบริษัทคำนวณไม่ได้</b></td><td>เคาะ space ในเซลล์ตัวเลข + ลบคอลัมน์ + ฝังสูตรคำนวณในเซลล์ข้อมูล</td></tr>
+      <tr><td class="c"><span class="num-badge">2</span></td><td>ต้อง map คอลัมน์ด้วยมือทีละแถว เพราะยอดรวมอยู่คนละตำแหน่ง (4W, 2W, รายวัน วางไม่เหมือนกัน)</td><td><b>Layout coupling</b> — ค่าตรรกะเดียวกันอยู่คนละเซลล์ต่อคน</td></tr>
+      <tr style="background:var(--red-soft);"><td class="c"><span class="num-badge" style="background:var(--red);">3</span></td><td><b>จ่ายเงินผิดจริง</b> โดยไม่มี error เตือน — คอลัมน์ “จ่ายรถ” ของคนรถบางคนชี้ไปช่อง “ค่าฐานเงินเดือน” แทนยอดจ่ายจริง</td><td>map พิกัดด้วยมือ + ไม่มีการตรวจสอบ (validation)</td></tr>
+      <tr><td class="c"><span class="num-badge">4</span></td><td>วันที่ในชีตเช็คชื่อเพี้ยนเป็น “ปี 1969”</td><td>กรอกปี พ.ศ. 2 หลัก ไม่มีชนิดข้อมูลวันที่</td></tr>
+      <tr><td class="c"><span class="num-badge">5</span></td><td>ชื่อคน/ชื่อชีตพิมพ์ไม่ตรงกัน (เช่น สกนซ์/สกนธ์, รัฐเซีย/รัฐเชีย)</td><td>เชื่อมข้อมูลด้วย “ชื่อ” ที่เป็นทั้งคีย์และสูตร</td></tr>
+      <tr><td class="c"><span class="num-badge">6</span></td><td>เพิ่มคน/Hub ต้องคัดลอกชีต + แก้สูตรด้วยมือ (มี 4 ชีต “ว่าง” ค้างไว้)</td><td>ไม่มีฐานข้อมูลกลาง — “คน” ถูกทำเป็นเลย์เอาต์ ไม่ใช่ข้อมูล</td></tr>
+      <tr style="background:var(--red-soft);"><td class="c"><span class="num-badge" style="background:var(--red);">7</span></td><td><b>ไม่เคยกระทบยอดกับเงินจริง</b>ที่แพลตฟอร์มโอนมา — กำไรที่เห็นเป็น “กำไรบนกระดาษ”</td><td>คิดจากเรทที่บริษัทคีย์เอง ไม่มีการเทียบ settlement</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box problem">
+    <h4>⚠ หลักฐานชิ้นสำคัญ: ไฟล์ปัจจุบัน “จ่ายเงินผิด” โดยไม่มีสัญญาณเตือน</h4>
+    <p class="small" style="margin:2px 0;">ในชีตสรุป คอลัมน์ <b>“จ่ายรถ (SPDO 1–30)”</b> ของคนรถ <b>2 คน</b> ถูกตั้งสูตรชี้ไปที่ช่อง “ค่าฐานเงินเดือน” แทนที่จะเป็นยอดจ่ายจริง ทำให้ยอดหัวบิล <u>ไม่ตรงกับผลรวมรอบ 1–15 บวกรอบ 16–30</u> ของคนคนนั้นเอง — เป็นความผิดพลาดที่ตาเปล่ามองไม่เห็น เพราะไม่ขึ้นเป็น error สีแดง นี่คือเหตุผลที่ระบบต้อง “คำนวณด้วยตรรกะเดียว + ตรวจสอบอัตโนมัติ”</p>
+  </div>
+
+  <h3 class="sub3">เป้าหมายของระบบ</h3>
+  <div class="kpi">
+    <div class="k"><div class="v">0</div><div class="l">error สูตรลามข้ามชีต<br>(แยกข้อมูลออกจากการคำนวณ)</div></div>
+    <div class="k"><div class="v">2 ฝั่ง</div><div class="l">SPX / SPDO คิดถูก<br>อัตโนมัติด้วยตรรกะเดียว</div></div>
+    <div class="k"><div class="v">กำไรจริง</div><div class="l">กระทบยอดกับเงิน<br>ที่แพลตฟอร์มโอนจริง</div></div>
+    <div class="k"><div class="v">+1 แถว</div><div class="l">เพิ่มคน/Hub โดยไม่<br>สร้างชีต/แก้สูตร</div></div>
+  </div>
+  <div class="foot"><span>SPDO Delivery Ops &amp; Billing System · ข้อเสนอโครงการ</span><span>Pollaphat · 2026</span></div>
+</div>
+
+<!-- ============ PAGE 2: ARCHITECTURE + MODULES ============ -->
+<div class="page">
+  <div class="sec"><div class="num">2</div><div><h2>ภาพรวมระบบ &amp; โมดูลหลัก</h2><div class="en">ARCHITECTURE &amp; MODULES</div></div></div>
+
+  <p>หัวใจของการออกแบบคือ <b>แยกระบบเป็น 3 ชั้น</b> เพื่อตัดต้นตอปัญหา — ชั้นข้อมูลเก็บเฉพาะข้อมูลดิบ, ชั้นคำนวณคิดเงินตอนอ่าน (ไม่ฝังในเซลล์), ชั้นแสดงผลดึงไปแสดง</p>
+
+  <div class="layer l1"><div class="lh">PRESENTATION · ชั้นแสดงผล</div><div class="ld">ใบคุมเที่ยว · สลิป/ใบจ่ายคนรถ · dashboard มาร์จิ้น · LINE</div></div>
+  <div class="arrow">▲</div>
+  <div class="layer l2"><div class="lh">CALCULATION · ชั้นคำนวณ</div><div class="ld">Rate Engine (เรทแบบมีเวอร์ชัน) + Reconciliation — คิดเงิน “ตอนอ่าน” ไม่ฝังสูตรในเซลล์ข้อมูล</div></div>
+  <div class="arrow">▲</div>
+  <div class="layer l3"><div class="lh">DATA · ชั้นข้อมูล</div><div class="ld">โครงสร้าง Normalized: 1 แถว/คน/วัน + ฐานข้อมูลกลางชุดเดียว — เก็บข้อมูลดิบเท่านั้น ไม่มีสูตรปน</div></div>
+
+  <h3 class="sub3">โมดูลหลัก 10 ตัว</h3>
+  <table>
+    <thead><tr><th style="width:18%;">โมดูล</th><th style="width:50%;">หน้าที่</th><th>แทนอะไรในไฟล์เดิม</th></tr></thead>
+    <tbody>
+      <tr><td><b>M1</b> Master Data</td><td>ทะเบียนคนรถ / Hub / รถ — ตำแหน่งว่าง = สถานะ <code>vacant</code></td><td>หัวชีตรายคน 31 ชีต</td></tr>
+      <tr><td><b>M2</b> Rate Card</td><td>ตารางเรทกลาง <b>แบบมีเวอร์ชัน</b> แยกฝั่ง SPX/SPDO ต่อประเภทรถ</td><td>เรทที่ฝังในหัวคอลัมน์</td></tr>
+      <tr><td><b>M3</b> Daily Entry</td><td>บันทึก 1 แถว/คน/วัน เก็บข้อมูลดิบ + validation ที่ต้นทาง</td><td>ตารางวันที่ 1–31 ในชีตรายคน</td></tr>
+      <tr><td><b>M4</b> Inbound + Dispatch <span class="pill new">ใหม่</span></td><td>รับล็อตงานจาก SPX/LEX เป็นยอดควบคุม + จ่ายงานให้คนรถ</td><td>— (ไม่เคยมี)</td></tr>
+      <tr><td><b>M5</b> Attendance</td><td>เช็คชื่อ มา/ลา/หยุด เป็นเวลาจริง → ผูกฐานประกันรายเดือน</td><td>ชีตเช็คชื่อ (ที่วันที่เพี้ยน)</td></tr>
+      <tr><td><b>M6</b> Pay Engine <span class="pill mvp">MVP</span></td><td>คิด SPX / SPDO / margin / incentive 10% ตามรอบบิล</td><td>สูตรคิดเงินที่ฝังเซลล์</td></tr>
+      <tr><td><b>M7</b> Auto Summary <span class="pill mvp">MVP</span></td><td>ใบคุมเที่ยวรุ่นใหม่ดึงจากฐานข้อมูล (QUERY/SUMIFS)</td><td>ชีตสรุปที่อ้างข้ามชีตทีละเซลล์</td></tr>
+      <tr style="background:var(--teal-soft);"><td><b>M8</b> Reconciliation <span class="pill new">ใหม่</span></td><td>เทียบยอดที่ระบบคิด vs เงินจริงที่โอน → หาส่วนต่าง/งานถูกหัก</td><td>— (หัวใจของคุณค่าใหม่)</td></tr>
+      <tr><td><b>M9</b> Payslip</td><td>สร้างใบจ่าย PDF ต่อคนต่อรอบ ส่งเข้า LINE</td><td>สลิปทำมือ</td></tr>
+      <tr><td><b>M10</b> RBAC + Audit Log</td><td>สิทธิ์ตามบทบาท + บันทึกทุกการแก้ค่าเงิน (ใคร/เมื่อไร/เก่า→ใหม่)</td><td>— (ไม่เคยมี)</td></tr>
+    </tbody>
+  </table>
+  <div class="box note">
+    <h4>ขอบเขต MVP</h4>
+    <p class="small" style="margin:2px 0;">โมดูลที่ให้คุณค่าสูงสุด (M4 จ่ายงาน, M8 กระทบยอด) <b>ไม่อยู่ใน MVP</b> — แต่ออกแบบโครงสร้างข้อมูลให้รองรับตั้งแต่แรก แล้วทยอยเปิดในเฟสถัดไป เพื่อให้เริ่มใช้ได้เร็วและไม่ต้องรื้อภายหลัง</p>
+  </div>
+  <div class="foot"><span>SPDO Delivery Ops &amp; Billing System · ข้อเสนอโครงการ</span><span>Pollaphat · 2026</span></div>
+</div>
+
+<!-- ============ PAGE 3: DATA MODEL ============ -->
+<div class="page">
+  <div class="sec"><div class="num">3</div><div><h2>โครงสร้างข้อมูลหลัก (Data Model)</h2><div class="en">DATA MODEL</div></div></div>
+
+  <div class="formula">
+<span class="c"># ความสัมพันธ์ของข้อมูล (─&lt; = หนึ่ง-ต่อ-หลาย)</span>
+hubs ─&lt; <span class="k">drivers</span> ─&lt; <span class="k">daily_entries</span> (work_date <b>DATE</b>, pieces_in/out, size_s, size_l0..l3,
+                              rst, pooh, lost, fuel, same, advance, attendance)
+                 └─&lt; attendance
+<span class="k">rate_cards</span> (vehicle × employment × side × size_tier, min_pieces, base, rate, effective_from/to)
+billing_periods ─&lt; <span class="k">payouts</span> (spx_total, spdo_total, margin, incentive)   <span class="c">← derived</span>
+<span class="k">settlement_lines</span> ─&gt; reconciliation (variance, actual_margin)                 <span class="c">← derived</span>
+audit_log
+  </div>
+
+  <h3 class="sub3">ทำไมโครงนี้ทดแทน “1 ชีตต่อคน” ได้ และขยายได้</h3>
+  <table>
+    <thead><tr><th style="width:38%;">คุณสมบัติของโครงสร้างใหม่</th><th>ผลที่ได้</th></tr></thead>
+    <tbody>
+      <tr><td><b>driver_id เป็นคีย์</b> — ทุกธุรกรรมอ้างรหัส ไม่ใช่ชื่อ</td><td>ดับปัญหาชื่อพิมพ์ไม่ตรง (สกนซ์/สกนธ์) — เชื่อมข้อมูลไม่พลาด</td></tr>
+      <tr><td><b>daily_entries เป็นตารางเดียว (long-format)</b> ทุกประเภทรถใช้คอลัมน์เดียวกัน</td><td>ความต่าง 4W/2W/รายวัน ย้ายไปอยู่ที่ค่าในคอลัมน์ ไม่ใช่ตำแหน่งคอลัมน์ → <b>ไม่มีคอลัมน์รายวันให้ลบ = ไม่มี #REF! อีก</b></td></tr>
+      <tr><td><b>work_date เป็นชนิดวันที่จริง</b> + รอบบิลคำนวณจากวันที่</td><td>ดับบั๊ก “ปี 1969” ที่ราก แสดงเป็น พ.ศ. ที่หน้าจอ</td></tr>
+      <tr><td><b>เพิ่มคน/Hub = เพิ่ม 1 แถว</b></td><td>ตำแหน่งว่าง = สถานะ <code>vacant</code> ไม่ใช่ชีตเปล่า ไม่แตะสูตร</td></tr>
+      <tr><td><b>payouts เป็นค่าที่คำนวณ (derived)</b> คิดตอนอ่าน</td><td>แก้เรทแล้วคำนวณใหม่ทั้งระบบพร้อมกัน ไม่ต้องไล่แก้ 31 ชีต</td></tr>
+      <tr><td><b>rate_cards มีเวอร์ชัน</b> (effective_from/to)</td><td>ขึ้นเรทใหม่ = เพิ่มเวอร์ชัน — บิลย้อนหลังยังคิดด้วยเรทที่ถูกตามวันงาน</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box value">
+    <h4>หลักการเดียวที่แก้ได้ทุกปัญหา</h4>
+    <p class="small" style="margin:2px 0;">“<b>ใช้คอลัมน์เดียวกันทุกคน</b>” + “<b>เก็บข้อมูลดิบ ไม่เก็บผลลัพธ์ที่คำนวณแล้ว</b>” — เมื่อข้อมูลถูกแยกออกจากการคำนวณ error ทั้งคลาส (#REF!, #VALUE!, map ผิด) ก็หายไปพร้อมกัน</p>
+  </div>
+  <div class="foot"><span>SPDO Delivery Ops &amp; Billing System · ข้อเสนอโครงการ</span><span>Pollaphat · 2026</span></div>
+</div>
+
+<!-- ============ PAGE 4: CORE LOGIC ============ -->
+<div class="page">
+  <div class="sec"><div class="num">4</div><div><h2>ตรรกะหัวใจ: เรท · เครื่องคิดเงิน · กระทบยอด</h2><div class="en">RATE CARD · PAY ENGINE · RECONCILIATION</div></div></div>
+
+  <h3 class="sub3">4.1 Rate Card แบบมีเวอร์ชัน (ค่าจริงจากไฟล์ พร้อมใส่)</h3>
+  <table>
+    <thead><tr><th>ประเภท</th><th class="c">ขั้นต่ำ (ชิ้น)</th><th class="c">ฐาน SPX / SPDO ต่อวัน</th><th class="c">เรท S (SPX/SPDO)</th><th class="c">เรท L (SPX/SPDO)</th></tr></thead>
+    <tbody>
+      <tr><td><b>4W รายเดือน</b></td><td class="c">70</td><td class="c">615.39 / 533.33</td><td class="c">8 / 6</td><td class="c">L2 12/10 · L3 13/11</td></tr>
+      <tr><td><b>2W รายเดือน</b></td><td class="c">90</td><td class="c">615.39 / 466.66</td><td class="c">6 / 5</td><td class="c">L2 6/5 · L3 7/6</td></tr>
+      <tr><td><b>รายวัน (เหมา/วัน)</b></td><td class="c">65</td><td class="c">1,150 / 1,000</td><td class="c">11 / 9</td><td class="c">ตามตกลง</td></tr>
+    </tbody>
+  </table>
+  <p class="tiny muted" style="margin-top:-3px;">มิติเรท: platform × vehicle × employment × size_tier × side(SPX/SPDO) + ช่วงเวลาที่มีผล — เปลี่ยนเรท = เพิ่มเวอร์ชันใหม่ ไม่ทับของเก่า</p>
+
+  <h3 class="sub3">4.2 เครื่องคิดเงิน 2 ฝั่งคู่ขนาน (ตรรกะเดียวทุกประเภทรถ)</h3>
+  <div class="formula">
+<span class="k">SPX_net</span>  = base + (ชิ้นเกินขั้นต่ำ × เรท_S) + Σ(L tier × เรท_L ฝั่ง SPX) − Same − POOH
+<span class="k">SPDO_net</span> = base + RST + เบิก + Σ(L tier × เรท_L ฝั่ง SPDO) − Same − POOH − Card − LOST
+<span class="k">margin</span>   = SPX_net − SPDO_net
+  </div>
+  <div class="box note">
+    <h4>ความไม่สมมาตรที่เป็นหัวใจของมาร์จิ้น (ต้องยืนยันกับลูกค้า)</h4>
+    <p class="small" style="margin:2px 0;"><b>Same / POOH</b> หักทั้ง 2 ฝั่ง แต่ <b>RST / Card / LOST</b> หักเฉพาะฝั่ง SPDO · ชิ้น &lt; ขั้นต่ำ → ได้แค่ค่ากล่อง ไม่ได้ค่าแรง · รายวันวันหยุด/ลา → ไม่ได้ค่าเหมา · ต้องนิยาม “base คิดอย่างไรต่อรอบบิล” ให้ชัด (พบความไม่สอดคล้องระหว่างรอบ 1 กับรอบ 2 ในไฟล์เดิม)</p>
+  </div>
+
+  <h3 class="sub3">4.3 กระทบยอด 3 ชั้น</h3>
+  <table>
+    <thead><tr><th style="width:16%;">ชั้น</th><th style="width:46%;">ตรรกะ</th><th>จับอะไร</th></tr></thead>
+    <tbody>
+      <tr><td><b>① ภายในวัน</b></td><td>รับเข้า = จ่ายออก + RST + LOST · แจ้งเตือน margin ติดลบ, จ่ายออก &gt; รับเข้า</td><td>error ที่ต้นทาง (Excel ทำไม่ได้)</td></tr>
+      <tr><td><b>② รอบบิล</b></td><td>รวม SPX/SPDO ต่อคนต่อรอบ + incentive 10%</td><td>สรุปแทนใบคุมเที่ยว</td></tr>
+      <tr style="background:var(--teal-soft);"><td><b>③ Settlement</b></td><td>variance = ยอดที่ระบบคิด − ยอดที่แพลตฟอร์มโอนจริง (แยก unpaid / underpaid / size mismatch)</td><td>งานจ่ายขาด, ถูกหัก RST/LOST, ปรับไซส์</td></tr>
+    </tbody>
+  </table>
+  <div class="box value">
+    <h4>★ จุดขายหลัก</h4>
+    <p class="small" style="margin:2px 0;">ต่อให้ Excel ไม่มี error เลย ตัวเลขกำไรก็ยัง<b>เชื่อไม่ได้</b>จนกว่าจะเทียบกับเงินที่โอนจริง — <b>“กำไรจริง = settlement ที่ได้รับ − SPDO ที่จ่ายคนรถ”</b> คือสิ่งที่ระบบให้ได้ แต่ Excel ปัจจุบันทำไม่ได้เลย</p>
+  </div>
+  <div class="foot"><span>SPDO Delivery Ops &amp; Billing System · ข้อเสนอโครงการ</span><span>Pollaphat · 2026</span></div>
+</div>
+
+<!-- ============ PAGE 5: TECH + CAPTURE ============ -->
+<div class="page">
+  <div class="sec"><div class="num">5</div><div><h2>เทคโนโลยี &amp; การเก็บข้อมูลรายวัน</h2><div class="en">TECH STACK &amp; DATA CAPTURE</div></div></div>
+
+  <h3 class="sub3">คำแนะนำ: เริ่มที่ Google Sheets ที่ออกแบบใหม่ → ยกขึ้นเว็บแอปเมื่อโครงสร้างข้อมูลนิ่ง</h3>
+  <p class="small">สำหรับธุรกิจขนาด ~26 คน งบจำกัด <b>ไม่ควรเริ่มด้วยเว็บแอปเต็มรูปแบบ</b> เพราะความเร็วในการได้ใช้งานจริง (time-to-value) และการยอมรับของผู้ใช้สำคัญกว่า</p>
+  <table>
+    <thead><tr><th style="width:20%;">เฟส</th><th style="width:34%;">เทคโนโลยี</th><th>เหตุผล</th></tr></thead>
+    <tbody>
+      <tr><td><b>Phase 0–1</b><br>(Bridge + MVP)</td><td>Google Sheets โครงใหม่ (flat table + RateCard + QUERY/SUMIFS) + <b>Apps Script</b></td><td>แอดมิน/บัญชีคุ้นเคยอยู่แล้ว · ไม่มีค่า hosting · ประวัติเวอร์ชัน = audit ฟรี · <b>ได้ใช้จริงใน 1–2 สัปดาห์</b></td></tr>
+      <tr><td><b>Phase 2+</b><br>(System of record)</td><td><b>Supabase</b> (Postgres + Auth + RLS) + <b>Next.js</b> มือถือ-first + <b>n8n</b> + <b>LINE</b></td><td>ความถูกต้องระดับธุรกรรมสำหรับงานเงิน · RBAC ที่ระดับฐานข้อมูล · ขยายได้หลายร้อยคนโดยไม่แตะ schema</td></tr>
+    </tbody>
+  </table>
+  <p class="tiny muted" style="margin-top:-3px;"><b>ทางเลือกที่พิจารณาแล้วแต่ไม่เลือกเป็นหลัก:</b> AppSheet/Glide (no-code คุมตรรกะ 2 ฝั่งระยะยาวยาก) · Airtable (ค่า seat แพงเมื่อเพิ่มคน) · เว็บแอป custom ตั้งแต่ต้น (ช้า/แพงเกินสำหรับ MVP)</p>
+
+  <h3 class="sub3">การเก็บข้อมูลรายวัน — ลด error ที่ต้นทาง</h3>
+  <table>
+    <thead><tr><th style="width:24%;">ช่องทาง</th><th style="width:18%;">ใคร</th><th>การป้องกัน error ที่ต้นทาง</th></tr></thead>
+    <tbody>
+      <tr><td>ฟอร์มมือถือ / LINE</td><td>คนรถ (เฟสหลัง)</td><td>ทุกช่องเป็นตัวเลข + ตัด space อัตโนมัติ → ดับ #VALUE! · บังคับ รับเข้า=จ่ายออก+RST+LOST ก่อนส่ง · แนบรูป POD</td></tr>
+      <tr><td>หน้าจ่ายงาน / Sheet</td><td>แอดมิน Hub</td><td>เลือกคนรถจาก dropdown → กันพิมพ์ชื่อผิด · เลือกวันที่จากปฏิทิน → กันบั๊ก 1969</td></tr>
+      <tr><td>นำเข้า CSV / paste</td><td>จาก SPX/LEX</td><td>ตั้งยอดควบคุมของแต่ละวัน</td></tr>
+    </tbody>
+  </table>
+  <p class="small"><b>กลยุทธ์การยอมรับ:</b> เฟสแรก<b>ไม่บังคับคนรถกรอกเอง</b> (กัน adoption พัง) — แอดมินกรอกเหมือนเดิมแต่บนโครงสร้างที่ถูกต้อง แล้วค่อยดันให้คนรถกรอกเองในเฟสหลัง</p>
+  <div class="foot"><span>SPDO Delivery Ops &amp; Billing System · ข้อเสนอโครงการ</span><span>Pollaphat · 2026</span></div>
+</div>
+
+<!-- ============ PAGE 6: ROADMAP ============ -->
+<div class="page">
+  <div class="sec"><div class="num">6</div><div><h2>แผนดำเนินงานเป็นเฟส</h2><div class="en">PHASED ROADMAP</div></div></div>
+
+  <div class="phase"><div class="tag"><div class="pn">0</div><div class="pe">1–2 สัปดาห์</div></div><div class="body">
+    <div class="pt">Bridge &amp; Migration — Quick Win <span class="pill mvp">เริ่มที่นี่</span></div>
+    <ul class="small"><li>สกัด master (คนรถ/Hub/เรท/วันหยุด) จากไฟล์จริง ทำความสะอาดชื่อ/วันที่</li>
+    <li>แปลง 31 ชีตรายคน → ตารางเดียว (flat table) + ตั้ง RateCard แบบมีเวอร์ชัน</li>
+    <li><b>กระทบยอดให้ตรงไฟล์เดิม</b> (ยกเว้น 25 จุด error + จุดที่ map ผิด) เพื่อสร้างความเชื่อมั่น</li></ul>
+  </div></div>
+
+  <div class="phase mvp"><div class="tag"><div class="pn">1</div><div class="pe">1–2 สัปดาห์</div></div><div class="body">
+    <div class="pt">MVP — ทดแทน Excel <span class="pill mvp">MVP</span></div>
+    <ul class="small"><li>เครื่องคิดเงิน 2 ฝั่ง + ใบคุมเที่ยวอัตโนมัติ (QUERY/SUMIFS) + incentive 10%</li>
+    <li>validation + dropdown ครบทุกช่องกรอก</li>
+    <li><b>รันคู่ขนานกับ Excel 1 รอบบิล</b> แล้วเทียบผล + อบรมผู้ใช้</li></ul>
+  </div></div>
+
+  <div class="phase"><div class="tag"><div class="pn">2</div><div class="pe">1.5–2 สัปดาห์</div></div><div class="body">
+    <div class="pt">Settlement &amp; Payslip <span class="pill new">คุณค่าใหม่</span></div>
+    <ul class="small"><li>กระทบยอด settlement + คำนวณ variance (เริ่มที่ SPX)</li>
+    <li>สร้างใบจ่าย PDF ต่อคนต่อรอบ ส่งเข้า LINE + audit log</li></ul>
+  </div></div>
+
+  <div class="phase"><div class="tag"><div class="pn">3</div><div class="pe">6–8 สัปดาห์</div></div><div class="body">
+    <div class="pt">Core Web App (ตามความจำเป็นจริง) <span class="pill later">ภายหลัง</span></div>
+    <ul class="small"><li>Supabase schema + หน้ากรอกบนมือถือ + RBAC ผ่าน RLS</li>
+    <li>ใบคุมเที่ยวสร้างจากฐานข้อมูล + export Excel หน้าตาคุ้นเดิม · n8n นำเข้า settlement / ส่งสลิป LINE / ปิดรอบอัตโนมัติ</li></ul>
+  </div></div>
+
+  <div class="phase"><div class="tag"><div class="pn">4</div><div class="pe">ต่อเนื่อง</div></div><div class="body">
+    <div class="pt">Scale &amp; Self-service <span class="pill later">ภายหลัง</span></div>
+    <ul class="small"><li>LINE LIFF ให้คนรถยืนยันยอด/เช็คอินเอง · dashboard มาร์จิ้นต่อ Hub/ประเภท/แพลตฟอร์ม · export เข้าระบบบัญชี (FlowAccount/PEAK)</li></ul>
+  </div></div>
+
+  <div class="box value">
+    <h4>กลยุทธ์ลดความเสี่ยงด้านการลงทุน</h4>
+    <p class="small" style="margin:2px 0;">Phase 0–2 อยู่บน Google Sheets ทั้งหมด (ลงทุนต่ำ พิสูจน์ตรรกะการคิดเงินได้จริง) <b>ก่อน</b>ตัดสินใจลงทุนเว็บแอป — ลูกค้าได้เห็นของใช้งานได้และผลตอบแทนก่อนจ่ายเงินก้อนใหญ่</p>
+  </div>
+  <div class="foot"><span>SPDO Delivery Ops &amp; Billing System · ข้อเสนอโครงการ</span><span>Pollaphat · 2026</span></div>
+</div>
+
+<!-- ============ PAGE 7: QUESTIONS + NEXT ============ -->
+<div class="page">
+  <div class="sec"><div class="num">7</div><div><h2>สิ่งที่ต้องเคลียร์ &amp; ก้าวต่อไป</h2><div class="en">OPEN QUESTIONS &amp; NEXT STEPS</div></div></div>
+
+  <h3 class="sub3">คำถามสำคัญที่ต้องยืนยันกับลูกค้าก่อนเริ่ม (กำหนดขอบเขต/ราคา)</h3>
+  <table>
+    <thead><tr><th class="c" style="width:26px;">#</th><th>ประเด็น</th></tr></thead>
+    <tbody>
+      <tr><td class="c"><span class="num-badge">1</span></td><td><b>กฎคิดเงินที่ “ถูกต้อง” คืออะไรกันแน่</b> — base คิดอย่างไรต่อรอบบิล, ชิ้น&lt;ขั้นต่ำได้เท่าไร, รายวันวันหยุดได้/ไม่ได้, RST/LOST/Same/POOH หักฝั่งไหนบ้าง (ขอเป็นลายลักษณ์อักษร)</td></tr>
+      <tr><td class="c"><span class="num-badge">2</span></td><td><b>Settlement มาในรูปแบบไหน</b> — ลงรายชิ้น/มี order ref หรือเป็นยอดรวม? ขอไฟล์ตัวอย่างจริง 1–2 รอบ (กำหนดว่ากระทบยอดได้ละเอียดแค่ไหน)</td></tr>
+      <tr><td class="c"><span class="num-badge">3</span></td><td><b>เรทต่างกันต่อ Hub หรือเปลี่ยนกลางเดือนไหม</b> และมีแผนขึ้นเรทเมื่อใด</td></tr>
+      <tr><td class="c"><span class="num-badge">4</span></td><td><b>เฟสแรกให้คนรถกรอกเอง หรือแอดมินกรอกแทน</b> (กระทบขอบเขตงาน LINE อย่างมาก)</td></tr>
+      <tr><td class="c"><span class="num-badge">5</span></td><td><b>ใครต้องเห็นอะไรบ้าง / ใครปิดรอบได้</b> — เจ้าของ / แอดมิน Hub / บัญชี (กำหนด RBAC)</td></tr>
+      <tr><td class="c"><span class="num-badge">6</span></td><td><b>ต้อง export เข้าระบบบัญชีอะไร</b> (FlowAccount/PEAK/Excel) และ Lazada (LEX) อยู่ในเฟสไหน</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="sub3">ความเสี่ยง &amp; ข้อควรระวัง</h3>
+  <table>
+    <thead><tr><th style="width:32%;">ประเด็น</th><th>การบรรเทา</th></tr></thead>
+    <tbody>
+      <tr><td>สูตรเดิมบางจุดผิดอยู่แล้ว → migration จะไม่ตรง</td><td><b>ตกลงกับลูกค้าก่อนว่า “ค่าที่ถูก” คืออะไร</b> ไม่ลอกของเดิมที่ผิด</td></tr>
+      <tr><td>กฎคิดเงินมี edge case ซ้อนกัน</td><td>ยืนยันเป็นลายลักษณ์อักษรทุกข้อก่อนเขียน engine — ไม่เดา</td></tr>
+      <tr><td>ความละเอียดของ settlement</td><td>ขอไฟล์ตัวอย่างจริงก่อนสัญญาฟีเจอร์กระทบยอด</td></tr>
+      <tr><td>การยอมรับของผู้ใช้</td><td>validation เข้ม + ล็อกคอลัมน์สูตร + ฟอร์มสั้นภาษาไทย + รันคู่ขนาน 1 รอบ</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box value" style="margin-top:14px;">
+    <h4>ก้าวต่อไปที่แนะนำ</h4>
+    <p class="small" style="margin:2px 0;">นัดประชุม 1 รอบเพื่อ <b>(ก)</b> ยืนยันกฎคิดเงินทุกข้อ (คำถามข้อ 1) และ <b>(ข)</b> รับไฟล์ Excel ปัจจุบัน + ไฟล์ settlement ตัวอย่าง → เริ่ม <b>Phase 0</b> ทันที โดยใช้ไฟล์จริงพิสูจน์ว่าระบบให้ตัวเลขตรง (และชี้จุดที่ไฟล์เดิมจ่ายเงินผิด) <b>ก่อน</b>ลงทุนเฟสถัดไป</p>
+  </div>
+
+  <div style="margin-top:22px;text-align:center;color:var(--muted);font-size:9px;">— จบเอกสารข้อเสนอ · Pollaphat × SPDO · 25 มิถุนายน 2026 —</div>
+  <div class="foot"><span>SPDO Delivery Ops &amp; Billing System · ข้อเสนอโครงการ</span><span>Pollaphat · 2026</span></div>
+</div>
+
+</body>
+</html>
