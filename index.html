@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPDO Ops — Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#16243f; --navy2:#23365c; --teal:#0d9488; --teal-d:#0a6e66; --teal-soft:#e6f6f4;
+    --orange:#ea6a1e; --red:#c0392b; --red-soft:#fdecea; --green:#1f9d57; --green-soft:#e7f6ee;
+    --amber:#c98a16; --amber-soft:#fdf3df;
+    --ink:#1d2733; --muted:#6b7686; --line:#e6e9ef; --bg:#eef1f6; --card:#ffffff; --soft:#f6f8fb;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Sarabun','IBM Plex Sans Thai','Noto Sans Thai','Thonburi','Tahoma',sans-serif;
+    background:var(--bg);color:var(--ink);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .app{display:flex;min-height:100vh;}
+  a{color:inherit;text-decoration:none;}
+
+  /* SIDEBAR */
+  .side{width:212px;background:var(--navy);color:#cdd6e6;flex:0 0 auto;display:flex;flex-direction:column;padding:16px 0;}
+  .brand{display:flex;align-items:center;gap:9px;padding:4px 18px 16px;}
+  .brand .logo{width:30px;height:30px;border-radius:8px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;}
+  .brand b{color:#fff;font-size:15px;font-weight:700;letter-spacing:.3px;} .brand span{display:block;font-size:9.5px;color:#7e8aa3;}
+  .nav{margin-top:6px;} .navlbl{font-size:9px;letter-spacing:1.4px;color:#5d6b86;padding:10px 18px 4px;text-transform:uppercase;}
+  .nav a{display:flex;align-items:center;gap:10px;padding:9px 18px;font-size:13px;color:#c2cce0;border-left:3px solid transparent;cursor:pointer;}
+  .nav a:hover{background:rgba(255,255,255,.05);color:#fff;}
+  .nav a.on{background:rgba(13,148,136,.18);border-left-color:var(--teal);color:#fff;font-weight:600;}
+  .nav svg{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .side .foot{margin-top:auto;padding:14px 18px 2px;font-size:9.5px;color:#5d6b86;border-top:1px solid rgba(255,255,255,.07);}
+
+  /* MAIN */
+  .main{flex:1;display:flex;flex-direction:column;min-width:0;}
+  .top{height:54px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 22px;}
+  .top h1{font-size:16px;font-weight:700;color:var(--navy);}
+  .top .sp{flex:1;}
+  .pickr{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:12.5px;font-weight:600;color:var(--navy2);background:var(--soft);}
+  .iconbtn{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--soft);display:flex;align-items:center;justify-content:center;color:var(--muted);}
+  .iconbtn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .avatar{width:32px;height:32px;border-radius:50%;background:var(--navy2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;}
+  .content{padding:22px;overflow:auto;}
+  .screen{display:none;} .screen.on{display:block;}
+  .ptitle{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;}
+  .ptitle h2{font-size:19px;font-weight:700;color:var(--navy);} .ptitle .en{font-size:10px;letter-spacing:1px;color:var(--teal);font-weight:600;text-transform:uppercase;}
+  .psub{color:var(--muted);font-size:12px;margin-bottom:16px;}
+
+  /* CARDS */
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .metric{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .metric .l{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+  .metric .v{font-size:25px;font-weight:700;color:var(--navy);margin-top:5px;letter-spacing:-.5px;}
+  .metric .d{font-size:11px;margin-top:3px;font-weight:600;}
+  .metric .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .up{color:var(--green);} .down{color:var(--red);} .flat{color:var(--muted);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;}
+  .card h3{font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
+  .row2{display:grid;grid-template-columns:1.55fr 1fr;gap:14px;margin-bottom:16px;}
+
+  /* BAR CHART */
+  .bars{display:flex;flex-direction:column;gap:13px;margin-top:4px;}
+  .barrow .bl{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:4px;color:var(--ink);}
+  .barrow .bl b{color:var(--navy);} .barrow .bl span{color:var(--muted);}
+  .track{height:9px;background:var(--soft);border-radius:6px;position:relative;overflow:hidden;}
+  .track i{position:absolute;left:0;top:0;height:100%;border-radius:6px;}
+  .track .spx{background:var(--teal);} .track .spdo{background:#c3cad6;}
+  .leg{display:flex;gap:16px;font-size:11px;color:var(--muted);margin-top:12px;}
+  .leg b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
+
+  /* TABLE */
+  table{width:100%;border-collapse:collapse;font-size:12px;}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap;}
+  thead th{font-size:10.5px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px;background:var(--soft);}
+  tbody tr:hover{background:var(--soft);}
+  td.r,th.r{text-align:right;} td.c,th.c{text-align:center;}
+  .tnum{font-variant-numeric:tabular-nums;}
+  tr.warn{background:var(--red-soft);} tr.warn:hover{background:#fbe1dd;}
+  tfoot td{font-weight:700;color:var(--navy);background:#eef2f8;border-top:2px solid var(--navy);}
+  .pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10.5px;font-weight:600;}
+  .pill.t4{background:#e9eefb;color:#2a4178;} .pill.t2{background:#fef0e4;color:#9c5410;} .pill.day{background:#eee9fb;color:#5841a8;}
+  .pill.ok{background:var(--green-soft);color:#0f6b39;} .pill.bad{background:var(--red-soft);color:#9a2920;} .pill.wait{background:var(--amber-soft);color:#8a5e0c;}
+  .tag-hub{font-size:11px;color:var(--muted);}
+  .chips{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+  .chip{font-size:11.5px;padding:5px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;}
+  .chip.on{background:var(--navy);color:#fff;border-color:var(--navy);font-weight:600;}
+  .badge-ok{display:inline-flex;align-items:center;gap:6px;background:var(--green-soft);color:#0f6b39;font-size:11.5px;font-weight:600;padding:5px 12px;border-radius:8px;}
+  .badge-ok svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;}
+
+  /* ALERTS */
+  .alert{display:flex;gap:11px;padding:11px 12px;border-radius:9px;margin-bottom:9px;background:var(--red-soft);border-left:3px solid var(--red);}
+  .alert.amber{background:var(--amber-soft);border-left-color:var(--amber);}
+  .alert .ic{width:20px;height:20px;flex:0 0 auto;color:var(--red);} .alert.amber .ic{color:var(--amber);}
+  .alert .ic svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;}
+  .alert b{display:block;font-size:12px;color:var(--ink);} .alert span{font-size:11px;color:var(--muted);}
+  .mini{font-size:11px;color:var(--muted);}
+
+  /* DAILY ENTRY split + phone */
+  .splitde{display:grid;grid-template-columns:1fr 290px;gap:16px;}
+  .phone{width:258px;margin:0 auto;background:#0e1726;border-radius:30px;padding:11px;border:1px solid #2a3850;}
+  .phone .scr{background:var(--soft);border-radius:22px;overflow:hidden;}
+  .phone .pbar{background:var(--teal);color:#fff;padding:13px 15px 12px;}
+  .phone .pbar .ln{display:flex;align-items:center;gap:7px;font-size:10px;opacity:.9;}
+  .phone .pbar h4{font-size:14px;font-weight:700;margin-top:3px;}
+  .phone .pbody{padding:13px 14px 16px;}
+  .fld{margin-bottom:10px;} .fld label{font-size:10.5px;color:var(--muted);display:block;margin-bottom:3px;}
+  .fld .inp{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px;font-weight:600;color:var(--navy);display:flex;justify-content:space-between;align-items:center;}
+  .fld .inp small{font-size:9.5px;color:var(--muted);font-weight:400;}
+  .pod{background:#fff;border:1px dashed #c2cad6;border-radius:8px;padding:12px;text-align:center;color:var(--muted);font-size:10.5px;}
+  .pod svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7;display:block;margin:0 auto 4px;}
+  .pbtn{background:var(--teal);color:#fff;text-align:center;padding:10px;border-radius:9px;font-weight:700;font-size:13px;margin-top:11px;}
+  .calcbox{background:var(--navy);color:#fff;border-radius:12px;padding:15px 17px;}
+  .calcbox .ct{font-size:11px;color:#9fb0cc;text-transform:uppercase;letter-spacing:.6px;}
+  .calcbox .cr{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.1);}
+  .calcbox .cr:last-child{border:none;} .calcbox .cr .k{font-size:12px;color:#cdd8ea;} .calcbox .cr .v{font-size:18px;font-weight:700;}
+  .calcbox .cr .v.tealv{color:#5fe0cf;} .calcbox .cr .v.mv{color:var(--orange);}
+  .hint{font-size:10.5px;color:var(--green);display:flex;align-items:center;gap:5px;margin-top:3px;}
+  .hint svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;}
+
+  /* PAYSLIP */
+  .slip{max-width:560px;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+  .slip .sh{background:var(--navy);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:flex-start;}
+  .slip .sh h3{font-size:16px;font-weight:700;} .slip .sh .sub{font-size:11px;color:#9fb0cc;margin-top:3px;}
+  .slip .sh .amt{text-align:right;} .slip .sh .amt .l{font-size:10px;color:#9fb0cc;} .slip .sh .amt .v{font-size:22px;font-weight:700;color:#5fe0cf;}
+  .slip .sb{padding:8px 22px 14px;}
+  .li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;}
+  .li .k{color:var(--ink);} .li .v{font-weight:600;color:var(--navy);font-variant-numeric:tabular-nums;}
+  .li.minus .v{color:var(--red);} .li.sub{color:var(--muted);font-size:11.5px;border:none;padding:3px 0;}
+  .li.total{border-top:2px solid var(--navy);border-bottom:none;margin-top:4px;padding-top:11px;font-size:14px;font-weight:700;}
+  .li.total .v{font-size:17px;color:var(--teal-d);}
+  .slipfoot{display:flex;gap:10px;padding:0 22px 20px;}
+  .btn{flex:1;text-align:center;padding:10px;border-radius:9px;font-weight:700;font-size:13px;border:1px solid var(--line);color:var(--navy);background:var(--soft);display:flex;align-items:center;justify-content:center;gap:7px;}
+  .btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.9;}
+  .btn.line{background:#06c755;color:#fff;border-color:#06c755;}
+  .recobox{background:var(--teal-soft);border:1px solid #bfe6df;border-radius:12px;padding:14px 17px;}
+  .recobox .big{font-size:23px;font-weight:700;color:var(--teal-d);}
+  .deltaneg{color:var(--red);font-weight:700;}
+  .note{font-size:11px;color:var(--muted);margin-top:10px;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="brand"><div class="logo">S</div><div><b>SPDO Ops</b><span>Delivery &amp; Billing</span></div></div>
+    <div class="nav">
+      <div class="navlbl">ภาพรวม</div>
+      <a data-s="dash" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>แดชบอร์ด</a>
+      <a data-s="summary"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="20"/></svg>ใบคุมเที่ยว</a>
+      <div class="navlbl">ปฏิบัติการ</div>
+      <a data-s="entry"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>บันทึกรายวัน</a>
+      <a data-s="reco"><svg viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="21"/><path d="M5 7l-2 5h6z"/><path d="M19 7l-2 5h6z"/><path d="M5 21h14"/></svg>กระทบยอด</a>
+      <a data-s="slip"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>ใบจ่ายคนรถ</a>
+      <div class="navlbl">ตั้งค่า</div>
+      <a><svg viewBox="0 0 24 24"><rect x="1" y="6" width="15" height="11" rx="2"/><path d="M16 9h4l3 3v5h-7z"/><circle cx="5.5" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/></svg>ทะเบียนคนรถ</a>
+      <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.3-2.5H9.5l-.3 2.5a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.3 2.5h4.9l.3-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg>ตารางเรท (Rate Card)</a>
+    </div>
+    <div class="foot">Prototype · ข้อมูลตัวอย่างจากไฟล์จริง<br>Pollaphat × SPDO · มิ.ย. 2026</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="top">
+      <h1 id="toptitle">แดชบอร์ด</h1>
+      <div class="sp"></div>
+      <div class="pickr"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#23365c" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg> มิถุนายน 2026</div>
+      <div class="iconbtn"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
+      <div class="avatar">AD</div>
+    </div>
+    <div class="content">
+
+      <!-- ============ DASHBOARD ============ -->
+      <section class="screen on" id="dash">
+        <div class="ptitle"><h2>ภาพรวมเดือนมิถุนายน</h2><span class="en">Owner dashboard</span></div>
+        <div class="psub">สรุปรายรับ–ต้นทุน–กำไร แบบเรียลไทม์ จากข้อมูลคนรถ 26 คน · อัปเดตล่าสุด 25 มิ.ย. 08:30</div>
+
+        <div class="grid4">
+          <div class="metric"><div class="l">รายรับจากแพลตฟอร์ม (SPX)</div><div class="v">฿318,325</div><div class="d up">▲ 8.2% จากเดือนก่อน</div></div>
+          <div class="metric"><div class="l">ต้นทุนจ่ายคนรถ (SPDO)</div><div class="v">฿264,098</div><div class="d flat">82.9% ของรายรับ</div></div>
+          <div class="metric"><div class="l">กำไรขั้นต้น (บนกระดาษ)</div><div class="v">฿54,227</div><div class="d up">17.0% margin</div></div>
+          <div class="metric"><div class="l">คนรถ Active</div><div class="v">26</div><div class="d flat">4W: 12 · 2W: 13 · รายวัน: 6</div></div>
+        </div>
+
+        <div class="row2">
+          <div class="card">
+            <h3>รายรับ vs ต้นทุน ต่อ Hub</h3>
+            <div class="bars">
+              <div class="barrow"><div class="bl"><b>บางปะอิน (ABPIN)</b><span>SPX ฿268,000 · SPDO ฿222,300</span></div><div class="track"><i class="spx" style="width:100%"></i></div><div class="track" style="margin-top:3px"><i class="spdo" style="width:83%"></i></div></div>
+              <div class="barrow"><div class="bl"><b>อยุธยา (AAYUT)</b><span>SPX ฿24,000 · SPDO ฿20,500</span></div><div class="track"><i class="spx" style="width:34%"></i></div><div class="track" style="margin-top:3px"><i class="spdo" style="width:29%"></i></div></div>
+              <div class="barrow"><div class="bl"><b>หนองแค (ANKAE)</b><span>SPX ฿14,500 · SPDO ฿12,800</span></div><div class="track"><i class="spx" style="width:22%"></i></div><div class="track" style="margin-top:3px"><i class="spdo" style="width:19%"></i></div></div>
+              <div class="barrow"><div class="bl"><b>ลพบุรี (ALOPB)</b><span>SPX ฿11,825 · SPDO ฿8,798</span></div><div class="track"><i class="spx" style="width:18%"></i></div><div class="track" style="margin-top:3px"><i class="spdo" style="width:13%"></i></div></div>
+            </div>
+            <div class="leg"><span><b style="background:var(--teal)"></b>รายรับ SPX</span><span><b style="background:#c3cad6"></b>ต้นทุน SPDO</span></div>
+          </div>
+
+          <div class="card">
+            <h3>ต้องตรวจสอบ <span class="pill bad">2 รายการ</span></h3>
+            <div class="alert">
+              <div class="ic"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg></div>
+              <div><b>คนรถ 02 — ยอดจ่ายรถไม่ตรง</b><span>ยอด “จ่ายรถ” (฿10,133) ≠ รอบ 1-15 + รอบ 16-30 (฿10,472) · ต่าง ฿339</span></div>
+            </div>
+            <div class="alert amber">
+              <div class="ic"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg></div>
+              <div><b>คนรถ 08 — ข้อมูลรอบ 16-30 ผิดปกติ</b><span>คอลัมน์ยอดรวมชี้ผิดช่อง · ระบบคำนวณใหม่ให้แล้ว รอยืนยัน</span></div>
+            </div>
+            <p class="mini" style="margin-top:10px;line-height:1.6;">ระบบตรวจ <b>กฎ “จ่ายออก ≤ รับเข้า”</b> และ <b>“ยอดเดือน = รอบ1 + รอบ2”</b> อัตโนมัติทุกแถว — สิ่งที่ Excel เดิมจับไม่ได้</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>สถานะการกระทบยอดกับแพลตฟอร์ม (Settlement) <a data-s="reco" style="font-size:11px;color:var(--teal);font-weight:600;cursor:pointer">ดูทั้งหมด →</a></h3>
+          <div class="grid3">
+            <div style="border:1px solid var(--line);border-radius:10px;padding:13px 15px;"><div class="mini">SPX รอบ 1–15 มิ.ย.</div><div style="font-size:18px;font-weight:700;color:var(--navy);margin:4px 0">฿134,200</div><span class="pill ok">✓ กระทบยอดตรง</span></div>
+            <div style="border:1px solid var(--line);border-radius:10px;padding:13px 15px;"><div class="mini">SPX รอบ 16–30 มิ.ย.</div><div style="font-size:18px;font-weight:700;color:var(--navy);margin:4px 0">฿177,700</div><span class="pill wait">⏳ รอ settlement</span></div>
+            <div style="border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:var(--red-soft)"><div class="mini">ส่วนต่างที่ต้องเคลม</div><div style="font-size:18px;font-weight:700;color:var(--red);margin:4px 0">−฿6,425</div><span class="pill bad">3 Hub จ่ายขาด</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SUMMARY ============ -->
+      <section class="screen" id="summary">
+        <div class="ptitle"><h2>ใบคุมเที่ยว (อัตโนมัติ)</h2><span class="en">Auto summary</span></div>
+        <div class="psub">รวมยอดทุกคนอัตโนมัติจากข้อมูลรายวัน — ไม่มีสูตรข้ามชีต ไม่มี error · เพิ่มคนใหม่ขึ้นเองในตาราง</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div class="chips" style="margin:0;">
+            <span class="chip on">ทั้งหมด (26)</span><span class="chip">4W รายเดือน</span><span class="chip">2W รายเดือน</span><span class="chip">รายวัน</span>
+          </div>
+          <div class="sp" style="flex:1"></div>
+          <span class="badge-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> 0 error · ตรวจครบ 26 แถว</span>
+        </div>
+        <div class="card" style="padding:4px 0;">
+          <table>
+            <thead><tr>
+              <th style="padding-left:18px">#</th><th>ชื่อ–สกุล</th><th>Hub</th><th>ประเภท</th>
+              <th class="r">รับเข้า</th><th class="r">จ่ายออก</th><th class="r">SPX รายรับ</th><th class="r">SPDO จ่าย</th><th class="r">กำไร</th><th class="r" style="padding-right:18px">margin</th>
+            </tr></thead>
+            <tbody class="tnum">
+              <tr><td style="padding-left:18px">1</td><td>คนรถ 01</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td class="r">5,353</td><td class="r">5,221</td><td class="r">฿15,240</td><td class="r">฿12,267</td><td class="r">฿2,973</td><td class="r" style="padding-right:18px">19.5%</td></tr>
+              <tr class="warn"><td style="padding-left:18px">2</td><td>คนรถ 02 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2" style="vertical-align:-2px"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg></td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td class="r">1,495</td><td class="r">1,418</td><td class="r">฿11,692</td><td class="r">฿10,133</td><td class="r">฿1,559</td><td class="r" style="padding-right:18px">13.3%</td></tr>
+              <tr><td style="padding-left:18px">3</td><td>คนรถ 03</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td class="r">2,230</td><td class="r">2,090</td><td class="r">฿13,539</td><td class="r">฿11,733</td><td class="r">฿1,806</td><td class="r" style="padding-right:18px">13.3%</td></tr>
+              <tr><td style="padding-left:18px">4</td><td>คนรถ 04</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td class="r">3,993</td><td class="r">3,731</td><td class="r">฿12,923</td><td class="r">฿11,200</td><td class="r">฿1,723</td><td class="r" style="padding-right:18px">13.3%</td></tr>
+              <tr><td style="padding-left:18px">5</td><td>คนรถ 05</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td class="r">2,620</td><td class="r">4,132</td><td class="r">฿14,769</td><td class="r">฿12,800</td><td class="r">฿1,969</td><td class="r" style="padding-right:18px">13.3%</td></tr>
+              <tr><td style="padding-left:18px">6</td><td>คนรถ 06</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td class="r">4,317</td><td class="r">4,073</td><td class="r">฿14,154</td><td class="r">฿12,267</td><td class="r">฿1,887</td><td class="r" style="padding-right:18px">13.3%</td></tr>
+              <tr><td style="padding-left:18px">7</td><td>คนรถ 07</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td class="r">2,717</td><td class="r">2,616</td><td class="r">฿14,534</td><td class="r">฿11,417</td><td class="r">฿3,117</td><td class="r" style="padding-right:18px">21.4%</td></tr>
+              <tr class="warn"><td style="padding-left:18px">8</td><td>คนรถ 08 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2" style="vertical-align:-2px"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg></td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td class="r">2,980</td><td class="r">2,825</td><td class="r">฿14,769</td><td class="r">฿12,800</td><td class="r">฿1,969</td><td class="r" style="padding-right:18px">13.3%</td></tr>
+              <tr><td style="padding-left:18px">9</td><td>คนรถ 09</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t2">2W เดือน</span></td><td class="r">2,827</td><td class="r">2,656</td><td class="r">฿12,923</td><td class="r">฿9,800</td><td class="r">฿3,123</td><td class="r" style="padding-right:18px">24.2%</td></tr>
+              <tr><td style="padding-left:18px">10</td><td>คนรถ 10</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t2">2W เดือน</span></td><td class="r">3,680</td><td class="r">5,584</td><td class="r">฿14,154</td><td class="r">฿10,733</td><td class="r">฿3,421</td><td class="r" style="padding-right:18px">24.2%</td></tr>
+              <tr><td style="padding-left:18px">11</td><td>คนรถ 11</td><td class="tag-hub">บางปะอิน</td><td><span class="pill day">รายวัน 2W</span></td><td class="r">2,930</td><td class="r">2,383</td><td class="r">฿15,385</td><td class="r">฿11,667</td><td class="r">฿3,718</td><td class="r" style="padding-right:18px">24.2%</td></tr>
+              <tr><td style="padding-left:18px">12</td><td>คนรถ 12</td><td class="tag-hub">บางปะอิน</td><td><span class="pill day">รายวัน 4W</span></td><td class="r">1,777</td><td class="r">1,763</td><td class="r">฿14,950</td><td class="r">฿13,000</td><td class="r">฿1,950</td><td class="r" style="padding-right:18px">13.0%</td></tr>
+              <tr><td colspan="10" style="text-align:center;color:var(--muted);font-size:11.5px;padding:9px">+ อีก 14 คน · เลื่อนเพื่อดูทั้งหมด</td></tr>
+            </tbody>
+            <tfoot><tr>
+              <td colspan="4" style="padding-left:18px">รวมทั้งสิ้น (26 คน)</td>
+              <td class="r">62,356</td><td class="r">62,779</td><td class="r">฿318,325</td><td class="r">฿264,098</td><td class="r">฿54,227</td><td class="r" style="padding-right:18px">17.0%</td>
+            </tr></tfoot>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ DAILY ENTRY ============ -->
+      <section class="screen" id="entry">
+        <div class="ptitle"><h2>บันทึกงานรายวัน</h2><span class="en">Daily entry</span></div>
+        <div class="psub">กรอกข้อมูลดิบ — ระบบคิดเงิน SPX/SPDO ให้ทันที พร้อมตรวจความถูกต้อง · ไม่มีสูตรให้พัง</div>
+
+        <div class="splitde">
+          <div class="card" style="padding:14px 0 4px;">
+            <div style="display:flex;align-items:center;gap:10px;padding:0 18px 12px;">
+              <div class="avatar" style="background:var(--teal)">07</div>
+              <div><div style="font-weight:700;color:var(--navy);font-size:14px">คนรถ 07</div><div class="mini">บางปะอิน · 4W รายเดือน · ทะเบียน กx 0000 · หยุดเสาร์</div></div>
+              <div class="sp" style="flex:1"></div>
+              <div class="chips" style="margin:0;padding-right:18px"><span class="chip on">รอบ 1–15</span><span class="chip">รอบ 16–30</span></div>
+            </div>
+            <table>
+              <thead><tr><th style="padding-left:18px">วันที่</th><th class="r">รับเข้า</th><th class="r">จ่ายออก</th><th class="r">S</th><th class="r">L</th><th class="r">RST</th><th class="r">SPX</th><th class="r" style="padding-right:18px">SPDO</th></tr></thead>
+              <tbody class="tnum">
+                <tr><td style="padding-left:18px">1 มิ.ย.</td><td class="r">152</td><td class="r">146</td><td class="r">64</td><td class="r">82</td><td class="r">0</td><td class="r">฿742</td><td class="r" style="padding-right:18px">฿590</td></tr>
+                <tr style="background:var(--teal-soft)"><td style="padding-left:18px"><b>2 มิ.ย.</b> ◀</td><td class="r"><b>192</b></td><td class="r">178</td><td class="r">80</td><td class="r">98</td><td class="r">0</td><td class="r"><b>฿1,256</b></td><td class="r" style="padding-right:18px"><b>฿835</b></td></tr>
+                <tr><td style="padding-left:18px">3 มิ.ย.</td><td class="r">128</td><td class="r">123</td><td class="r">65</td><td class="r">58</td><td class="r">0</td><td class="r">฿506</td><td class="r" style="padding-right:18px">฿400</td></tr>
+                <tr><td style="padding-left:18px">4 มิ.ย.</td><td class="r">144</td><td class="r">139</td><td class="r">85</td><td class="r">54</td><td class="r">0</td><td class="r">฿651</td><td class="r" style="padding-right:18px">฿513</td></tr>
+                <tr><td style="padding-left:18px">5 มิ.ย.</td><td class="r">151</td><td class="r">148</td><td class="r">74</td><td class="r">74</td><td class="r">0</td><td class="r">฿773</td><td class="r" style="padding-right:18px">฿617</td></tr>
+                <tr><td style="padding-left:18px">6 มิ.ย. <span class="pill day" style="font-size:9px">Holiday</span></td><td class="r">158</td><td class="r">149</td><td class="r">97</td><td class="r">52</td><td class="r">0</td><td class="r">฿685</td><td class="r" style="padding-right:18px">฿527</td></tr>
+                <tr><td style="padding-left:18px">7 มิ.ย.</td><td class="r">159</td><td class="r">155</td><td class="r">85</td><td class="r">70</td><td class="r">0</td><td class="r">฿960</td><td class="r" style="padding-right:18px">฿645</td></tr>
+              </tbody>
+              <tfoot><tr><td style="padding-left:18px">ยอดรวมรอบ 1–15</td><td class="r">2,112</td><td class="r">2,046</td><td class="r">948</td><td class="r">939</td><td class="r">1</td><td class="r">฿9,996</td><td class="r" style="padding-right:18px">฿7,586</td></tr></tfoot>
+            </table>
+          </div>
+
+          <div>
+            <div class="calcbox" style="margin-bottom:14px;">
+              <div class="ct">คิดเงินวันที่ 2 มิ.ย. (เรียลไทม์)</div>
+              <div class="cr"><span class="k">รายรับ SPX</span><span class="v tealv">฿1,256</span></div>
+              <div class="cr"><span class="k">จ่ายคนรถ SPDO</span><span class="v">฿835</span></div>
+              <div class="cr"><span class="k">กำไรวันนี้</span><span class="v mv">฿421</span></div>
+              <div class="hint" style="color:#5fe0cf;margin-top:8px"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ผ่านการตรวจ: จ่ายออก ≤ รับเข้า</div>
+            </div>
+
+            <div class="phone">
+              <div class="scr">
+                <div class="pbar"><div class="ln"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0z"/></svg> SPDO บน LINE</div><h4>กรอกงานวันนี้</h4></div>
+                <div class="pbody">
+                  <div class="fld"><label>จำนวนรับเข้า (ชิ้น)</label><div class="inp">192 <small>auto-check</small></div></div>
+                  <div class="fld"><label>จำนวนจ่ายออก (ชิ้น)</label><div class="inp">178</div></div>
+                  <div class="fld"><label>งานคืน RST</label><div class="inp">0</div></div>
+                  <div class="pod"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>แนบรูปหลักฐานส่ง (POD)</div>
+                  <div class="pbtn">ส่งข้อมูล</div>
+                </div>
+              </div>
+            </div>
+            <p class="mini" style="text-align:center;margin-top:9px">คนรถกรอกเองผ่าน LINE (เฟสหลัง) หรือแอดมินกรอกแทน</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ RECONCILIATION ============ -->
+      <section class="screen" id="reco">
+        <div class="ptitle"><h2>กระทบยอดกับแพลตฟอร์ม</h2><span class="en">Settlement reconciliation</span></div>
+        <div class="psub">เทียบ “ยอดที่ระบบคำนวณ” กับ “เงินที่ Shopee/Lazada โอนจริง” เพื่อหางานที่จ่ายขาด/ถูกหัก — สิ่งที่ Excel เดิมทำไม่ได้</div>
+
+        <div class="grid4" style="grid-template-columns:repeat(4,1fr);">
+          <div class="metric"><div class="l">ยอดที่ระบบคำนวณ</div><div class="v">฿318,325</div><div class="d flat">SPX ทุก Hub</div></div>
+          <div class="metric"><div class="l">เงินที่โอนจริง</div><div class="v">฿311,900</div><div class="d flat">จาก settlement file</div></div>
+          <div class="metric" style="background:var(--red-soft);border-color:#f3c6c0"><div class="l">ส่วนต่าง (ต้องเคลม)</div><div class="v" style="color:var(--red)">−฿6,425</div><div class="d down">3 Hub จ่ายขาด</div></div>
+          <div class="metric" style="background:var(--teal-soft);border-color:#bfe6df"><div class="l">กำไรจริง (หลังกระทบยอด)</div><div class="v" style="color:var(--teal-d)">฿47,802</div><div class="d down">15.0% · ต่ำกว่ากระดาษ 2%</div></div>
+        </div>
+
+        <div class="card" style="padding:4px 0;">
+          <table>
+            <thead><tr><th style="padding-left:18px">Hub / รอบ</th><th>แพลตฟอร์ม</th><th class="r">ยอดระบบคิด</th><th class="r">โอนจริง</th><th class="r">ส่วนต่าง</th><th class="c">สถานะ</th><th style="padding-right:18px">หมายเหตุ</th></tr></thead>
+            <tbody class="tnum">
+              <tr><td style="padding-left:18px">บางปะอิน · 1–15</td><td>Shopee SPX</td><td class="r">฿134,200</td><td class="r">฿134,200</td><td class="r">฿0</td><td class="c"><span class="pill ok">ตรง</span></td><td class="mini" style="padding-right:18px">—</td></tr>
+              <tr class="warn"><td style="padding-left:18px">บางปะอิน · 16–30</td><td>Shopee SPX</td><td class="r">฿133,800</td><td class="r">฿129,950</td><td class="r deltaneg">−฿3,850</td><td class="c"><span class="pill bad">จ่ายขาด</span></td><td class="mini" style="padding-right:18px">งานคืน RST ยังไม่กระทบ 41 ชิ้น</td></tr>
+              <tr class="warn"><td style="padding-left:18px">อยุธยา · 1–30</td><td>Shopee SPX</td><td class="r">฿24,000</td><td class="r">฿23,100</td><td class="r deltaneg">−฿900</td><td class="c"><span class="pill bad">ไซส์ไม่ตรง</span></td><td class="mini" style="padding-right:18px">นับ L เป็น S 18 ชิ้น</td></tr>
+              <tr><td style="padding-left:18px">หนองแค · 1–30</td><td>Lazada LEX</td><td class="r">฿14,500</td><td class="r">฿14,500</td><td class="r">฿0</td><td class="c"><span class="pill ok">ตรง</span></td><td class="mini" style="padding-right:18px">—</td></tr>
+              <tr class="warn"><td style="padding-left:18px">ลพบุรี · 1–30</td><td>Shopee SPX</td><td class="r">฿11,825</td><td class="r">฿10,150</td><td class="r deltaneg">−฿1,675</td><td class="c"><span class="pill bad">ยังไม่จ่าย</span></td><td class="mini" style="padding-right:18px">ค้างจ่าย 3 วัน</td></tr>
+            </tbody>
+            <tfoot><tr><td colspan="2" style="padding-left:18px">รวม</td><td class="r">฿318,325</td><td class="r">฿311,900</td><td class="r deltaneg">−฿6,425</td><td class="c"><span class="pill bad">3 รายการ</span></td><td style="padding-right:18px"></td></tr></tfoot>
+          </table>
+        </div>
+        <div class="recobox" style="margin-top:14px;">
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div><div class="mini">กำไรบนกระดาษ (Excel เดิม)</div><div style="font-size:18px;font-weight:700;color:var(--muted)">฿54,227</div></div>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0a6e66" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            <div><div class="mini">กำไรจริงหลังกระทบยอด</div><div class="big">฿47,802</div></div>
+            <div class="sp" style="flex:1"></div>
+            <div style="text-align:right"><div class="mini">ต้องตามเคลมคืน</div><div style="font-size:20px;font-weight:700;color:var(--red)">฿6,425</div></div>
+          </div>
+          <p class="note">ระบบชี้ชัดว่ากำไรจริง <b>ต่ำกว่าที่ Excel แสดง ฿6,425</b> — เงินก้อนนี้คือสิ่งที่เคยหายไปเงียบๆ เพราะไม่เคยเทียบกับ settlement</p>
+        </div>
+      </section>
+
+      <!-- ============ PAYSLIP ============ -->
+      <section class="screen" id="slip">
+        <div class="ptitle"><h2>ใบจ่ายคนรถ</h2><span class="en">Driver payslip</span></div>
+        <div class="psub">สร้างใบจ่ายต่อคนต่อรอบบิลอัตโนมัติ ส่งเข้า LINE ได้ทันที — ไม่ต้องทำสลิปมือ</div>
+
+        <div class="slip">
+          <div class="sh">
+            <div><h3>คนรถ 07</h3><div class="sub">บางปะอิน · 4W รายเดือน · ทะเบียน กx 0000</div><div class="sub">ใบจ่ายเดือนมิถุนายน 2026 (รอบเต็มเดือน)</div></div>
+            <div class="amt"><div class="l">ยอดสุทธิ</div><div class="v">฿11,417</div></div>
+          </div>
+          <div class="sb">
+            <div class="li"><span class="k">ค่าแรงตามจำนวนชิ้น — ไซส์ S (948 ชิ้น)</span><span class="v">฿8,850</span></div>
+            <div class="li"><span class="k">ค่าแรงตามจำนวนชิ้น — ไซส์ L (1,144 ชิ้น)</span><span class="v">฿1,480</span></div>
+            <div class="li"><span class="k">ค่าฐานวันทำงาน (21 วัน)</span><span class="v">฿1,088</span></div>
+            <div class="li"><span class="k">งานคืน (RST) 1 ชิ้น</span><span class="v">฿0</span></div>
+            <div class="li minus"><span class="k">หัก — ค่าที่อยู่ (Same) / ค่าปรับ (POOH)</span><span class="v">−฿0</span></div>
+            <div class="li minus"><span class="k">หัก — ของหาย (LOST) / เบิกล่วงหน้า</span><span class="v">−฿0</span></div>
+            <div class="li sub"><span>รอบ 1–15: ฿7,586</span><span>รอบ 16–30: ฿3,832</span></div>
+            <div class="li total"><span class="k">ยอดจ่ายสุทธิ</span><span class="v">฿11,417.15</span></div>
+          </div>
+          <div class="slipfoot">
+            <div class="btn"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> ดาวน์โหลด PDF</div>
+            <div class="btn line"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0z"/></svg> ส่งเข้า LINE</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const titles={dash:'แดชบอร์ด',summary:'ใบคุมเที่ยว',entry:'บันทึกรายวัน',reco:'กระทบยอด Settlement',slip:'ใบจ่ายคนรถ'};
+  function go(s){
+    if(!document.getElementById(s))s='dash';
+    document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id===s));
+    document.querySelectorAll('.nav a[data-s]').forEach(a=>a.classList.toggle('on',a.dataset.s===s));
+    document.getElementById('toptitle').textContent=titles[s]||'';
+    document.querySelector('.content').scrollTop=0;
+    if(location.hash!=='#'+s)history.replaceState(null,'','#'+s);
+  }
+  document.querySelectorAll('[data-s]').forEach(a=>a.addEventListener('click',()=>go(a.dataset.s)));
+  go((location.hash||'#dash').slice(1));
+</script>
+</body>
+</html>
