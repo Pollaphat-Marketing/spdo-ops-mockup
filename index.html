@@ -16,12 +16,12 @@
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Sarabun','IBM Plex Sans Thai','Noto Sans Thai','Thonburi','Tahoma',sans-serif;
-    background:var(--bg);color:var(--ink);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
-  .app{display:flex;min-height:100vh;}
+    background:var(--bg);color:var(--ink);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-wrap:anywhere;}
+  .app{display:flex;height:100vh;overflow:hidden;}
   a{color:inherit;text-decoration:none;}
 
   /* SIDEBAR */
-  .side{width:212px;background:#1f3343;color:#cfd9e4;flex:0 0 auto;display:flex;flex-direction:column;padding:16px 0;}
+  .side{width:212px;background:#1f3343;color:#cfd9e4;flex:0 0 auto;display:flex;flex-direction:column;padding:16px 0;overflow-y:auto;}
   .brand{display:flex;align-items:center;gap:9px;padding:4px 18px 16px;}
   .brand .logo{width:30px;height:30px;border-radius:8px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;}
   .brand b{color:#fff;font-size:15px;font-weight:700;letter-spacing:.3px;} .brand span{display:block;font-size:9.5px;color:#7e8aa3;}
@@ -33,15 +33,15 @@
   .side .foot{margin-top:auto;padding:14px 18px 2px;font-size:9.5px;color:#5d6b86;border-top:1px solid rgba(255,255,255,.07);}
 
   /* MAIN */
-  .main{flex:1;display:flex;flex-direction:column;min-width:0;}
-  .top{height:54px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 22px;}
+  .main{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;}
+  .top{height:54px;flex:0 0 auto;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 22px;}
   .top h1{font-size:16px;font-weight:700;color:var(--navy);}
   .top .sp{flex:1;}
   .pickr{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:12.5px;font-weight:600;color:var(--navy2);background:var(--soft);}
   .iconbtn{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--soft);display:flex;align-items:center;justify-content:center;color:var(--muted);}
   .iconbtn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;}
   .avatar{width:32px;height:32px;border-radius:50%;background:var(--navy2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;}
-  .content{padding:26px 28px 32px;overflow:auto;}
+  .content{padding:26px 28px 32px;overflow:auto;flex:1;min-height:0;}
   .screen{display:none;} .screen.on{display:block;}
   .ptitle{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;}
   .ptitle h2{font-size:19px;font-weight:700;color:var(--navy);} .ptitle .en{display:none;}
@@ -141,6 +141,38 @@
   .deltaneg{color:var(--red);font-weight:700;}
   .note{font-size:11px;color:var(--muted);margin-top:10px;}
 
+  /* SIDEBAR TOGGLE + RESPONSIVE */
+  .menubtn{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--soft);display:flex;align-items:center;justify-content:center;color:var(--navy2);cursor:pointer;flex:0 0 auto;}
+  .menubtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;}
+  .menubtn:hover{background:#eef1f6;}
+  .side{transition:margin-left .22s ease;}
+  body.nav-collapsed .side{margin-left:-213px;}
+  .scrim{display:none;}
+  .pill.gray{background:#eceef2;color:#566072;}
+  .toolbtn{display:inline-flex;align-items:center;gap:6px;border:none;background:var(--teal);color:#fff;border-radius:9px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .toolbtn:hover{background:var(--teal-d);}
+  .toolbtn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;}
+  @media (max-width:820px){
+    .side{position:fixed;z-index:60;top:0;bottom:0;left:0;width:240px;transform:translateX(-100%);transition:transform .25s ease;box-shadow:6px 0 40px rgba(10,20,40,.25);margin-left:0;}
+    body.nav-open .side{transform:none;}
+    .scrim{position:fixed;inset:0;background:rgba(16,36,63,.45);z-index:55;}
+    body.nav-open .scrim{display:block;}
+    .content{padding:18px 15px 28px;}
+    .grid4,.grid3,.row2,.splitde{grid-template-columns:1fr;}
+    .card:has(> table){overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .card > table{min-width:580px;}
+    .top{padding:0 13px;gap:9px;}
+    .top h1{font-size:15px;}
+    .pickr{display:none;}
+    .slip{max-width:none;}
+    dialog#help{max-width:none;}
+  }
+  @media (max-width:430px){
+    .helpbtn span,.helpbtn{font-size:0;gap:0;padding:8px;}
+    .helpbtn svg{font-size:15px;}
+    .ratecols{grid-template-columns:1fr !important;}
+  }
+
   /* HELP MODAL */
   .helpbtn{display:flex;align-items:center;gap:6px;border:1px solid #bfe6df;background:var(--teal-soft);color:var(--teal-d);border-radius:9px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
   .helpbtn:hover{background:#d6efea;}
@@ -182,17 +214,19 @@
       <a data-s="reco"><svg viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="21"/><path d="M5 7l-2 5h6z"/><path d="M19 7l-2 5h6z"/><path d="M5 21h14"/></svg>กระทบยอด</a>
       <a data-s="slip"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>ใบจ่ายคนรถ</a>
       <div class="navlbl">ตั้งค่า</div>
-      <a><svg viewBox="0 0 24 24"><rect x="1" y="6" width="15" height="11" rx="2"/><path d="M16 9h4l3 3v5h-7z"/><circle cx="5.5" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/></svg>ทะเบียนคนรถ</a>
-      <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.3-2.5H9.5l-.3 2.5a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.3 2.5h4.9l.3-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg>ตารางเรท (Rate Card)</a>
+      <a data-s="drivers"><svg viewBox="0 0 24 24"><rect x="1" y="6" width="15" height="11" rx="2"/><path d="M16 9h4l3 3v5h-7z"/><circle cx="5.5" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/></svg>ทะเบียนคนรถ</a>
+      <a data-s="rates"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.3-2.5H9.5l-.3 2.5a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.3 2.5h4.9l.3-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg>ตารางเรท (Rate Card)</a>
       <div class="navlbl">เอกสาร</div>
       <a data-s="plan"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>แผนงานพัฒนา</a>
     </div>
     <div class="foot">Prototype · ข้อมูลตัวอย่างจากไฟล์จริง<br>Pollaphat × SPDO · มิ.ย. 2026</div>
   </aside>
+  <div class="scrim" id="scrim"></div>
 
   <!-- MAIN -->
   <div class="main">
     <div class="top">
+      <button class="menubtn" id="menuBtn" aria-label="ซ่อน/แสดงเมนู"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
       <h1 id="toptitle">แดชบอร์ด</h1>
       <div class="sp"></div>
       <div class="pickr"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#23365c" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg> มิถุนายน 2026</div>
@@ -408,6 +442,58 @@
         </div>
       </section>
 
+      <!-- ============ DRIVERS ============ -->
+      <section class="screen" id="drivers">
+        <div class="ptitle"><h2>ทะเบียนคนรถ</h2><span class="en">Drivers</span></div>
+        <div class="psub">ข้อมูลคนรถทั้งหมดในที่เดียว — เพิ่มคนใหม่ = เพิ่ม 1 แถว ไม่ต้องสร้างชีต · รหัส (driver_id) เป็นคีย์ถาวร กันปัญหาชื่อพิมพ์ไม่ตรง</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+          <div class="chips" style="margin:0;"><span class="chip on">ทั้งหมด (30)</span><span class="chip">ทำงาน (26)</span><span class="chip">ตำแหน่งว่าง (4)</span></div>
+          <div class="sp" style="flex:1"></div>
+          <button class="toolbtn"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> เพิ่มคนรถ</button>
+        </div>
+        <div class="card" style="padding:4px 0;">
+          <table>
+            <thead><tr><th style="padding-left:18px">รหัส</th><th>ชื่อ</th><th>Hub</th><th>ประเภทรถ</th><th>รูปแบบจ้าง</th><th>ทะเบียน</th><th>เริ่มงาน</th><th class="c" style="padding-right:18px">สถานะ</th></tr></thead>
+            <tbody>
+              <tr><td style="padding-left:18px" class="mini">DRV-01</td><td>คนรถ 01</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td>รายเดือน</td><td class="tnum">1กก 1201</td><td class="mini">1 พ.ค. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
+              <tr><td style="padding-left:18px" class="mini">DRV-02</td><td>คนรถ 02</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td>รายเดือน</td><td class="tnum">1กก 1202</td><td class="mini">1 พ.ค. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
+              <tr><td style="padding-left:18px" class="mini">DRV-05</td><td>คนรถ 05</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td>รายเดือน</td><td class="tnum">2ขข 3344</td><td class="mini">16 พ.ค. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
+              <tr><td style="padding-left:18px" class="mini">DRV-07</td><td>คนรถ 07</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td>รายเดือน</td><td class="tnum">3คค 6961</td><td class="mini">16 พ.ค. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
+              <tr><td style="padding-left:18px" class="mini">DRV-09</td><td>คนรถ 09</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t2">2W เดือน</span></td><td>รายเดือน</td><td class="tnum">กพ 5521</td><td class="mini">1 มิ.ย. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
+              <tr><td style="padding-left:18px" class="mini">DRV-10</td><td>คนรถ 10</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t2">2W เดือน</span></td><td>รายเดือน</td><td class="tnum">กพ 5522</td><td class="mini">1 มิ.ย. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
+              <tr><td style="padding-left:18px" class="mini">DRV-11</td><td>คนรถ 11</td><td class="tag-hub">อยุธยา</td><td><span class="pill day">รายวัน 2W</span></td><td>รายวัน</td><td class="tnum">ขก 7781</td><td class="mini">8 มิ.ย. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
+              <tr><td style="padding-left:18px" class="mini">DRV-12</td><td>คนรถ 12</td><td class="tag-hub">บางปะอิน</td><td><span class="pill day">รายวัน 4W</span></td><td>รายวัน</td><td class="tnum">4งง 1290</td><td class="mini">8 มิ.ย. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
+              <tr><td style="padding-left:18px" class="mini">DRV-13</td><td>คนรถ 13</td><td class="tag-hub">หนองแค</td><td><span class="pill day">รายวัน 4W</span></td><td>รายวัน</td><td class="tnum">4งง 1291</td><td class="mini">12 มิ.ย. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
+              <tr><td style="padding-left:18px" class="mini">DRV-14</td><td>คนรถ 14</td><td class="tag-hub">ลพบุรี</td><td><span class="pill t4">4W เดือน</span></td><td>รายเดือน</td><td class="tnum">2ขข 8810</td><td class="mini">12 มิ.ย. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
+              <tr style="color:var(--muted)"><td style="padding-left:18px" class="mini">DRV-28</td><td>— (ตำแหน่งว่าง)</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t2">2W เดือน</span></td><td>รายเดือน</td><td>—</td><td class="mini">—</td><td class="c" style="padding-right:18px"><span class="pill gray">ว่าง</span></td></tr>
+              <tr style="color:var(--muted)"><td style="padding-left:18px" class="mini">DRV-31</td><td>— (ตำแหน่งว่าง)</td><td class="tag-hub">อยุธยา</td><td><span class="pill day">รายวัน 4W</span></td><td>รายวัน</td><td>—</td><td class="mini">—</td><td class="c" style="padding-right:18px"><span class="pill gray">ว่าง</span></td></tr>
+              <tr><td colspan="8" style="text-align:center;color:var(--muted);font-size:11.5px;padding:9px">+ อีก 18 รายการ · เลื่อนเพื่อดูทั้งหมด</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ RATES ============ -->
+      <section class="screen" id="rates">
+        <div class="ptitle"><h2>ตารางเรท (Rate Card)</h2><span class="en">Rate card</span></div>
+        <div class="psub">เรทคิดเงินแยกตาม ประเภทรถ × รูปแบบจ้าง × ไซส์ × ฝั่ง (SPX รายรับ / SPDO ต้นทุน) · เปลี่ยนเรท = เพิ่มเวอร์ชันใหม่ บิลย้อนหลังยังคิดด้วยเรทเดิมเสมอ</div>
+        <div class="card" style="padding:4px 0;margin-bottom:18px;">
+          <table>
+            <thead><tr><th style="padding-left:18px">ประเภท</th><th class="c">ขั้นต่ำ (ชิ้น)</th><th class="r">ฐาน/วัน SPX</th><th class="r">ฐาน/วัน SPDO</th><th class="c">เรท S<br><span class="mini" style="font-weight:400">SPX / SPDO</span></th><th class="c">เรท L2<br><span class="mini" style="font-weight:400">SPX / SPDO</span></th><th class="c" style="padding-right:18px">เรท L3<br><span class="mini" style="font-weight:400">SPX / SPDO</span></th></tr></thead>
+            <tbody class="tnum">
+              <tr><td style="padding-left:18px"><span class="pill t4">4W รายเดือน</span></td><td class="c">70</td><td class="r">฿615.39</td><td class="r">฿533.33</td><td class="c">8 / 6</td><td class="c">12 / 10</td><td class="c" style="padding-right:18px">13 / 11</td></tr>
+              <tr><td style="padding-left:18px"><span class="pill t2">2W รายเดือน</span></td><td class="c">90</td><td class="r">฿615.39</td><td class="r">฿466.66</td><td class="c">6 / 5</td><td class="c">6 / 5</td><td class="c" style="padding-right:18px">7 / 6</td></tr>
+              <tr><td style="padding-left:18px"><span class="pill day">รายวัน (เหมา/วัน)</span></td><td class="c">65</td><td class="r">฿1,150</td><td class="r">฿1,000</td><td class="c">11 / 9</td><td class="c">ตามตกลง</td><td class="c" style="padding-right:18px">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="grid3 ratecols">
+          <div class="card"><h3 style="margin-bottom:8px">โบนัส (Incentive)</h3><div style="font-size:24px;font-weight:700;color:var(--teal-d)">10%</div><p class="mini" style="margin-top:6px">คิดจากยอดสุทธิตามเงื่อนไขที่ตกลง ท้ายรอบบิล</p></div>
+          <div class="card"><h3 style="margin-bottom:8px">เวอร์ชันที่ใช้อยู่</h3><div style="font-weight:700;color:var(--navy)">v2 · มีผล 1 พ.ค. 2026</div><p class="mini" style="margin-top:6px">บิลตั้งแต่ 1 พ.ค. เป็นต้นไปคิดด้วยเรทชุดนี้</p></div>
+          <div class="card"><h3 style="margin-bottom:8px">เวอร์ชันก่อนหน้า</h3><div style="font-weight:700;color:var(--muted)">v1 · 1 ม.ค.–30 เม.ย. 2026</div><p class="mini" style="margin-top:6px">เก็บไว้เพื่อคิดบิลย้อนหลังให้ถูกต้องตามวันงาน</p></div>
+        </div>
+      </section>
+
       <!-- ============ PLAN (proposal) ============ -->
       <section class="screen" id="plan">
         <div class="ptitle"><h2>แผนงานพัฒนา</h2><span class="en">Project proposal</span></div>
@@ -435,7 +521,7 @@
 </dialog>
 
 <script>
-  const titles={dash:'แดชบอร์ด',summary:'ใบคุมเที่ยว',entry:'บันทึกรายวัน',reco:'กระทบยอด Settlement',slip:'ใบจ่ายคนรถ',plan:'แผนงานพัฒนา'};
+  const titles={dash:'แดชบอร์ด',summary:'ใบคุมเที่ยว',entry:'บันทึกรายวัน',reco:'กระทบยอด Settlement',slip:'ใบจ่ายคนรถ',drivers:'ทะเบียนคนรถ',rates:'ตารางเรท (Rate Card)',plan:'แผนงานพัฒนา'};
   function sizePlan(){try{var f=document.getElementById('planframe');if(f&&f.contentWindow&&f.contentWindow.document&&f.contentWindow.document.documentElement){var h=f.contentWindow.document.documentElement.scrollHeight;if(h>200)f.style.height=(h+24)+'px';}}catch(e){}}
   let current='dash';
   function go(s){
@@ -445,6 +531,7 @@
     document.querySelectorAll('.nav a[data-s]').forEach(a=>a.classList.toggle('on',a.dataset.s===s));
     document.getElementById('toptitle').textContent=titles[s]||'';
     document.querySelector('.content').scrollTop=0;
+    document.body.classList.remove('nav-open');
     if(s==='plan'){setTimeout(sizePlan,80);setTimeout(sizePlan,450);}
     if(location.hash!=='#'+s)history.replaceState(null,'','#'+s);
   }
@@ -472,6 +559,15 @@
     slip:{t:'ใบจ่ายคนรถ',b:'<p>สลิปจ่ายต่อคนต่อรอบบิล</p><ul>'+
       '<li>แจกแจง<b>ค่าแรงตามชิ้น/ไซส์</b> และ<b>รายการหัก</b> (Same/POOH/LOST/เบิก)</li>'+
       '<li>ปุ่ม <b>ดาวน์โหลด PDF</b> หรือ <b>ส่งเข้า LINE</b> ส่งให้คนรถได้ทันที</li></ul>'},
+    drivers:{t:'ทะเบียนคนรถ',b:'<p>ฐานข้อมูลคนรถกลาง แทนการฝังข้อมูลในหัวชีตรายคน</p><ul>'+
+      '<li><b>ชิปกรอง</b> — ดูทั้งหมด / เฉพาะที่ทำงาน / ตำแหน่งว่าง</li>'+
+      '<li><b>รหัส (DRV-xx)</b> — คีย์ถาวรของแต่ละคน อ้างอิงในทุกธุรกรรม</li>'+
+      '<li><b>ปุ่ม "เพิ่มคนรถ"</b> — เพิ่มได้เลย ไม่ต้องสร้างชีตใหม่</li>'+
+      '<li><b>สถานะ "ว่าง"</b> — ตำแหน่งสำรองที่ยังไม่มีคน</li></ul>'},
+    rates:{t:'ตารางเรท (Rate Card)',b:'<p>เรทคิดเงินกลาง — ทุกการคำนวณดึงจากที่นี่</p><ul>'+
+      '<li>แยกตาม<b>ประเภทรถ × รูปแบบจ้าง × ไซส์</b> และฝั่ง <b>SPX</b> (รายรับ) / <b>SPDO</b> (ต้นทุน)</li>'+
+      '<li><b>ขั้นต่ำ</b> — จำนวนชิ้นต่ำสุดก่อนเริ่มได้ค่าแรงต่อชิ้น</li>'+
+      '<li><b>เวอร์ชัน</b> — เปลี่ยนเรท = เพิ่มเวอร์ชันใหม่ บิลเก่ายังคิดด้วยเรทเดิม</li></ul>'},
     plan:{t:'แผนงานพัฒนา',b:'<p>ข้อเสนอโครงการฉบับเต็มอยู่ในหน้านี้</p><ul>'+
       '<li><b>เปิดเต็มหน้า</b> — เปิดข้อเสนอในแท็บใหม่</li>'+
       '<li><b>ดาวน์โหลด PDF</b> — บันทึกไฟล์ข้อเสนอ</li></ul>'}
@@ -483,6 +579,12 @@
   document.getElementById('helpOk').addEventListener('click',function(){dlg.close();});
   dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();});
   var pf=document.getElementById('planframe');if(pf)pf.addEventListener('load',sizePlan);
+  var mq=window.matchMedia('(max-width:820px)');
+  document.getElementById('menuBtn').addEventListener('click',function(){
+    if(mq.matches){document.body.classList.toggle('nav-open');}
+    else{document.body.classList.toggle('nav-collapsed');}
+  });
+  document.getElementById('scrim').addEventListener('click',function(){document.body.classList.remove('nav-open');});
   document.querySelectorAll('[data-s]').forEach(a=>a.addEventListener('click',()=>go(a.dataset.s)));
   go((location.hash||'#dash').slice(1));
 </script>
