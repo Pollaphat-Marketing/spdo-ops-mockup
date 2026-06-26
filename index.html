@@ -52,7 +52,7 @@
   .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
   .metric{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;}
   .metric .l{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px;}
-  .metric .v{font-size:25px;font-weight:700;color:var(--navy);margin-top:8px;letter-spacing:-.5px;}
+  .metric .v{font-size:25px;font-weight:700;color:var(--navy);margin-top:8px;letter-spacing:-.5px;white-space:nowrap;overflow-wrap:normal;}
   .metric .d{font-size:11px;margin-top:3px;font-weight:600;}
   .metric .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
   .up{color:var(--green);} .down{color:var(--red);} .flat{color:var(--muted);}
@@ -137,7 +137,7 @@
   .btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.9;}
   .btn.line{background:#06c755;color:#fff;border-color:#06c755;}
   .recobox{background:var(--teal-soft);border:1px solid #bfe6df;border-radius:14px;padding:14px 17px;}
-  .recobox .big{font-size:23px;font-weight:700;color:var(--teal-d);}
+  .recobox .big{font-size:23px;font-weight:700;color:var(--teal-d);white-space:nowrap;}
   .deltaneg{color:var(--red);font-weight:700;}
   .note{font-size:11px;color:var(--muted);margin-top:10px;}
 
@@ -383,7 +383,7 @@
         <div class="ptitle"><h2>กระทบยอดกับแพลตฟอร์ม</h2><span class="en">Settlement reconciliation</span></div>
         <div class="psub">เทียบ “ยอดที่ระบบคำนวณ” กับ “เงินที่ Shopee/Lazada โอนจริง” เพื่อหางานที่จ่ายขาด/ถูกหัก — สิ่งที่ Excel เดิมทำไม่ได้</div>
 
-        <div class="grid4" style="grid-template-columns:repeat(4,1fr);">
+        <div class="grid4">
           <div class="metric"><div class="l">ยอดที่ระบบคำนวณ</div><div class="v">฿318,325</div><div class="d flat">SPX ทุก Hub</div></div>
           <div class="metric"><div class="l">เงินที่โอนจริง</div><div class="v">฿311,900</div><div class="d flat">จาก settlement file</div></div>
           <div class="metric" style="background:var(--red-soft);border-color:#f3c6c0"><div class="l">ส่วนต่าง (ต้องเคลม)</div><div class="v" style="color:var(--red)">−฿6,425</div><div class="d down">3 Hub จ่ายขาด</div></div>
@@ -404,7 +404,7 @@
           </table>
         </div>
         <div class="recobox" style="margin-top:14px;">
-          <div style="display:flex;align-items:center;gap:16px;">
+          <div style="display:flex;align-items:center;gap:14px 16px;flex-wrap:wrap;">
             <div><div class="mini">กำไรบนกระดาษ (Excel เดิม)</div><div style="font-size:18px;font-weight:700;color:var(--muted)">฿54,227</div></div>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0a6e66" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             <div><div class="mini">กำไรจริงหลังกระทบยอด</div><div class="big">฿47,802</div></div>
