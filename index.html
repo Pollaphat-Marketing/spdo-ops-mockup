@@ -41,26 +41,26 @@
   .iconbtn{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--soft);display:flex;align-items:center;justify-content:center;color:var(--muted);}
   .iconbtn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;}
   .avatar{width:32px;height:32px;border-radius:50%;background:var(--navy2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;}
-  .content{padding:22px;overflow:auto;}
+  .content{padding:26px 28px 32px;overflow:auto;}
   .screen{display:none;} .screen.on{display:block;}
   .ptitle{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;}
   .ptitle h2{font-size:19px;font-weight:700;color:var(--navy);} .ptitle .en{display:none;}
-  .psub{color:var(--muted);font-size:12px;margin-bottom:16px;}
+  .psub{color:var(--muted);font-size:12px;margin-bottom:24px;max-width:78ch;}
 
   /* CARDS */
-  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px;}
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-  .metric{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .metric{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;}
   .metric .l{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px;}
-  .metric .v{font-size:25px;font-weight:700;color:var(--navy);margin-top:5px;letter-spacing:-.5px;}
+  .metric .v{font-size:25px;font-weight:700;color:var(--navy);margin-top:8px;letter-spacing:-.5px;}
   .metric .d{font-size:11px;margin-top:3px;font-weight:600;}
   .metric .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
   .up{color:var(--green);} .down{color:var(--red);} .flat{color:var(--muted);}
   .metric.hero{background:var(--teal);border-color:var(--teal);}
   .metric.hero .l{color:#cdeee8;} .metric.hero .v{color:#fff;font-size:28px;} .metric.hero .d{color:#e9faf6;}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
-  .card h3{font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
-  .row2{display:grid;grid-template-columns:1.55fr 1fr;gap:14px;margin-bottom:16px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;}
+  .card h3{font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:15px;display:flex;align-items:center;justify-content:space-between;}
+  .row2{display:grid;grid-template-columns:1.55fr 1fr;gap:18px;margin-bottom:28px;}
 
   /* BAR CHART */
   .bars{display:flex;flex-direction:column;gap:13px;margin-top:4px;}
@@ -217,9 +217,9 @@
         <div class="card">
           <h3>สถานะการกระทบยอดกับแพลตฟอร์ม (Settlement) <a data-s="reco" style="font-size:11px;color:var(--teal);font-weight:600;cursor:pointer">ดูทั้งหมด →</a></h3>
           <div class="grid3">
-            <div style="border:1px solid var(--line);border-radius:10px;padding:13px 15px;"><div class="mini">SPX รอบ 1–15 มิ.ย.</div><div style="font-size:18px;font-weight:700;color:var(--navy);margin:4px 0">฿134,200</div><span class="pill ok">✓ กระทบยอดตรง</span></div>
-            <div style="border:1px solid var(--line);border-radius:10px;padding:13px 15px;"><div class="mini">SPX รอบ 16–30 มิ.ย.</div><div style="font-size:18px;font-weight:700;color:var(--navy);margin:4px 0">฿177,700</div><span class="pill wait">⏳ รอ settlement</span></div>
-            <div style="border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:var(--red-soft)"><div class="mini">ส่วนต่างที่ต้องเคลม</div><div style="font-size:18px;font-weight:700;color:var(--red);margin:4px 0">−฿6,425</div><span class="pill bad">3 Hub จ่ายขาด</span></div>
+            <div style="border:1px solid var(--line);border-radius:11px;padding:15px 17px;"><div class="mini">SPX รอบ 1–15 มิ.ย.</div><div style="font-size:18px;font-weight:700;color:var(--navy);margin:4px 0">฿134,200</div><span class="pill ok">✓ กระทบยอดตรง</span></div>
+            <div style="border:1px solid var(--line);border-radius:11px;padding:15px 17px;"><div class="mini">SPX รอบ 16–30 มิ.ย.</div><div style="font-size:18px;font-weight:700;color:var(--navy);margin:4px 0">฿177,700</div><span class="pill wait">⏳ รอ settlement</span></div>
+            <div style="border:1px solid var(--line);border-radius:11px;padding:15px 17px;background:var(--red-soft)"><div class="mini">ส่วนต่างที่ต้องเคลม</div><div style="font-size:18px;font-weight:700;color:var(--red);margin:4px 0">−฿6,425</div><span class="pill bad">3 Hub จ่ายขาด</span></div>
           </div>
         </div>
       </section>
