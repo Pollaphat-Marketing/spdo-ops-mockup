@@ -171,6 +171,10 @@
     #entryTable th:nth-child(n+4):nth-child(-n+6),
     #entryTable td:nth-child(n+4):nth-child(-n+6){display:none;}
   }
+  @media (max-width:560px){
+    .rolesel{font-size:0;gap:3px;padding:5px 7px;}
+    .top .iconbtn{display:none;}
+  }
   @media (max-width:430px){
     .helpbtn span,.helpbtn{font-size:0;gap:0;padding:8px;}
     .helpbtn svg{font-size:15px;}
@@ -218,7 +222,7 @@
   .banner svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9;flex:0 0 auto;}
   body[data-role="admin"] .banner.admin{display:flex;background:var(--amber-soft);color:#8a5e0c;border:1px solid #efdca8;}
   body[data-role="admin"] .money{display:none !important;}
-  body[data-role="admin"] .nav a[data-s="rates"],body[data-role="admin"] .nav a[data-s="plan"],body[data-role="admin"] .nav a[data-s="reco"],body[data-role="admin"] .nav a[data-s="slip"]{display:none;}
+  body[data-role="admin"] .nav a[data-s="rates"],body[data-role="admin"] .nav a[data-s="plan"],body[data-role="admin"] .nav a[data-s="reco"],body[data-role="admin"] .nav a[data-s="slip"],body[data-role="admin"] .navlbl.doc{display:none;}
   body:not([data-role="driver"]) .nav a[data-s="driverview"]{display:none;}
   body[data-role="driver"] .nav a:not([data-s="driverview"]),body[data-role="driver"] .navlbl{display:none;}
   body[data-role="driver"] .pickr{display:none;}
@@ -262,7 +266,7 @@
       <div class="navlbl">ตั้งค่า</div>
       <a data-s="drivers"><svg viewBox="0 0 24 24"><rect x="1" y="6" width="15" height="11" rx="2"/><path d="M16 9h4l3 3v5h-7z"/><circle cx="5.5" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/></svg>ทะเบียนคนรถ</a>
       <a data-s="rates"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.3-2.5H9.5l-.3 2.5a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.3 2.5h4.9l.3-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg>ตารางเรท (Rate Card)</a>
-      <div class="navlbl">เอกสาร</div>
+      <div class="navlbl doc">เอกสาร</div>
       <a data-s="plan"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>แผนงานพัฒนา</a>
     </div>
     <div class="foot">Prototype · ข้อมูลตัวอย่างจากไฟล์จริง<br>Pollaphat × SPDO · มิ.ย. 2026</div>
@@ -382,7 +386,8 @@
       <!-- ============ SUMMARY ============ -->
       <section class="screen" id="summary">
         <div class="ptitle"><h2>ใบคุมเที่ยว (อัตโนมัติ)</h2><span class="en">Auto summary</span></div>
-        <div class="psub">รวมยอดทุกคนอัตโนมัติจากข้อมูลรายวัน — ไม่มีสูตรข้ามชีต ไม่มี error · เพิ่มคนใหม่ขึ้นเองในตาราง</div>
+        <div class="psub">รวมยอดทุกคนอัตโนมัติจากข้อมูลรายวัน — ไม่มีสูตรข้ามชีต ไม่มี error · สลับประเภทงาน LM/FM/LH ที่ปุ่มมุมบน</div>
+        <div data-job-only="LM">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
           <div class="chips" style="margin:0;">
             <span class="chip on">ทั้งหมด (26)</span><span class="chip">4W รายเดือน</span><span class="chip">2W รายเดือน</span><span class="chip">รายวัน</span>
@@ -417,6 +422,52 @@
             </tr></tfoot>
           </table>
         </div>
+        </div>
+
+        <div data-job-only="FM">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div class="chips" style="margin:0;"><span class="chip on">FM-Pickup (7 คน)</span></div>
+            <div class="sp" style="flex:1"></div>
+            <span class="badge-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> 0 error</span>
+          </div>
+          <div class="card" style="padding:4px 0;">
+            <table>
+              <thead><tr><th style="padding-left:18px">#</th><th>คนรถ</th><th class="r">SPX สุทธิ</th><th class="r">จ่ายรถ</th><th class="r" style="padding-right:18px">SPDO สุทธิ</th></tr></thead>
+              <tbody class="tnum">
+                <tr><td style="padding-left:18px">1</td><td>คนรถ 16</td><td class="r">฿21,123</td><td class="r">฿16,800</td><td class="r" style="padding-right:18px">฿4,323</td></tr>
+                <tr><td style="padding-left:18px">2</td><td>คนรถ 17</td><td class="r">฿19,292</td><td class="r">฿15,200</td><td class="r" style="padding-right:18px">฿4,092</td></tr>
+                <tr><td style="padding-left:18px">3</td><td>คนรถ 18 <span class="jobtag">ทำ LH ด้วย</span></td><td class="r">฿6,222</td><td class="r">฿4,700</td><td class="r" style="padding-right:18px">฿1,522</td></tr>
+                <tr><td style="padding-left:18px">4</td><td>คนรถ 19</td><td class="r">฿23,735</td><td class="r">฿17,600</td><td class="r" style="padding-right:18px">฿6,135</td></tr>
+                <tr><td style="padding-left:18px">5</td><td>คนรถ 20</td><td class="r">฿19,389</td><td class="r">฿15,700</td><td class="r" style="padding-right:18px">฿3,689</td></tr>
+                <tr><td style="padding-left:18px">6</td><td>คนรถ 22</td><td class="r">฿7,509</td><td class="r">฿5,300</td><td class="r" style="padding-right:18px">฿2,209</td></tr>
+                <tr><td colspan="5" style="text-align:center;color:var(--muted);font-size:11.5px;padding:9px">+ อีก 1 คน</td></tr>
+              </tbody>
+              <tfoot><tr><td colspan="2" style="padding-left:18px">รวม FM (7 คน)</td><td class="r">฿99,370</td><td class="r">฿76,700</td><td class="r" style="padding-right:18px">฿22,670</td></tr></tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div data-job-only="LH">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div class="chips" style="margin:0;"><span class="chip on">LH / Line Haul (11 คน)</span></div>
+            <div class="sp" style="flex:1"></div>
+            <span class="badge-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> 0 error</span>
+          </div>
+          <div class="card" style="padding:4px 0;">
+            <table>
+              <thead><tr><th style="padding-left:18px">#</th><th>คนรถ</th><th>รถ</th><th class="r">งานเที่ยว (SPX/Flash)</th><th class="r">จ่ายรถ</th><th class="r" style="padding-right:18px">SPDO สุทธิ</th></tr></thead>
+              <tbody class="tnum">
+                <tr><td style="padding-left:18px">1</td><td>คนรถ 21</td><td><span class="pill t4">4WJ</span></td><td class="r">฿23,475</td><td class="r">฿18,180</td><td class="r" style="padding-right:18px">฿5,295</td></tr>
+                <tr><td style="padding-left:18px">2</td><td>คนรถ 24</td><td><span class="pill t4">4W</span></td><td class="r">฿7,388</td><td class="r">฿5,350</td><td class="r" style="padding-right:18px">฿2,038</td></tr>
+                <tr><td style="padding-left:18px">3</td><td>คนรถ 18 <span class="jobtag">ทำ FM ด้วย</span></td><td><span class="pill t4">4W</span></td><td class="r">฿6,144</td><td class="r">฿4,600</td><td class="r" style="padding-right:18px">฿1,544</td></tr>
+                <tr><td style="padding-left:18px">4</td><td>คนรถ 25</td><td><span class="pill t4">4W</span></td><td class="r">฿7,528</td><td class="r">฿5,400</td><td class="r" style="padding-right:18px">฿2,128</td></tr>
+                <tr><td style="padding-left:18px">5</td><td>คนรถ 26</td><td><span class="pill t4">4W</span></td><td class="r">฿2,944</td><td class="r">฿2,200</td><td class="r" style="padding-right:18px">฿744</td></tr>
+                <tr><td colspan="6" style="text-align:center;color:var(--muted);font-size:11.5px;padding:9px">+ อีก 6 คน</td></tr>
+              </tbody>
+              <tfoot><tr><td colspan="3" style="padding-left:18px">รวม LH (11 คน)</td><td class="r">฿72,400</td><td class="r">฿56,300</td><td class="r" style="padding-right:18px">฿16,100</td></tr></tfoot>
+            </table>
+          </div>
+        </div>
       </section>
 
       <!-- ============ DAILY ENTRY ============ -->
@@ -425,7 +476,7 @@
         <div class="psub">กรอกข้อมูลดิบ — ระบบคิดเงิน SPX/SPDO ให้ทันที พร้อมตรวจความถูกต้อง · ไม่มีสูตรให้พัง</div>
 
         <div class="splitde">
-          <div class="card" style="padding:14px 0 4px;">
+          <div data-job-only="LM"><div class="card" style="padding:14px 0 4px;">
             <div style="display:flex;align-items:center;gap:10px 12px;padding:0 18px 12px;flex-wrap:wrap;">
               <div class="avatar" style="background:var(--teal)">07</div>
               <div><div style="font-weight:700;color:var(--navy);font-size:14px">คนรถ 07</div><div class="mini">บางปะอิน · 4W รายเดือน · ทะเบียน กx 0000 · หยุดเสาร์</div></div>
@@ -445,16 +496,72 @@
               </tbody>
               <tfoot><tr><td style="padding-left:18px">ยอดรวมรอบ 1–15</td><td class="r">2,112</td><td class="r">2,046</td><td class="r">948</td><td class="r">939</td><td class="r">1</td><td class="r">฿9,996</td><td class="r" style="padding-right:18px">฿7,586</td></tr></tfoot>
             </table>
-          </div>
+          </div></div>
+
+          <div data-job-only="FM"><div class="card" style="padding:14px 0 4px;">
+            <div style="display:flex;align-items:center;gap:10px 12px;padding:0 18px 12px;flex-wrap:wrap;">
+              <div class="avatar" style="background:var(--orange)">16</div>
+              <div><div style="font-weight:700;color:var(--navy);font-size:14px">คนรถ 16 (FM)</div><div class="mini">บางปะอิน · 4WH-FM · รับเข้าจากร้านค้า</div></div>
+              <div class="sp" style="flex:1"></div>
+              <div class="chips" style="margin:0;padding-right:18px"><span class="chip on">รอบ 1–15</span><span class="chip">รอบ 16–30</span></div>
+            </div>
+            <table>
+              <thead><tr><th style="padding-left:18px">วันที่</th><th class="r">จำนวนร้าน</th><th class="c">CBM</th><th class="r">SPX รายรับ</th><th class="r" style="padding-right:18px">จ่ายรถ SPDO</th></tr></thead>
+              <tbody class="tnum">
+                <tr><td style="padding-left:18px">1 มิ.ย.</td><td class="r">15</td><td class="c">CBM1</td><td class="r">฿1,358.80</td><td class="r" style="padding-right:18px">฿1,100</td></tr>
+                <tr style="background:var(--teal-soft)"><td style="padding-left:18px"><b>2 มิ.ย.</b> ◀</td><td class="r"><b>14</b></td><td class="c">CBM1</td><td class="r"><b>฿1,358.80</b></td><td class="r" style="padding-right:18px"><b>฿1,100</b></td></tr>
+                <tr><td style="padding-left:18px">3 มิ.ย.</td><td class="r">14</td><td class="c">CBM1</td><td class="r">฿1,358.80</td><td class="r" style="padding-right:18px">฿1,100</td></tr>
+                <tr><td style="padding-left:18px">14 มิ.ย.</td><td class="r">15</td><td class="c">CBM1</td><td class="r">฿1,358.80</td><td class="r" style="padding-right:18px">฿1,100</td></tr>
+                <tr><td style="padding-left:18px">15 มิ.ย.</td><td class="r">1</td><td class="c">CBM2</td><td class="r">฿2,100</td><td class="r" style="padding-right:18px">฿1,400</td></tr>
+              </tbody>
+              <tfoot><tr><td style="padding-left:18px">ยอดรวมรอบ 1–15</td><td class="r">—</td><td class="c">—</td><td class="r">฿21,123</td><td class="r" style="padding-right:18px">฿16,800</td></tr></tfoot>
+            </table>
+          </div></div>
+
+          <div data-job-only="LH"><div class="card" style="padding:14px 0 4px;">
+            <div style="display:flex;align-items:center;gap:10px 12px;padding:0 18px 12px;flex-wrap:wrap;">
+              <div class="avatar" style="background:var(--navy2)">21</div>
+              <div><div style="font-weight:700;color:var(--navy);font-size:14px">คนรถ 21 (LH)</div><div class="mini">วิ่งระหว่างคลัง · 4WJ · ทะเบียน กx 0000 · SPX/Flash</div></div>
+              <div class="sp" style="flex:1"></div>
+              <div class="chips" style="margin:0;padding-right:18px"><span class="chip on">รอบ 1–15</span><span class="chip">รอบ 16–30</span></div>
+            </div>
+            <table>
+              <thead><tr><th style="padding-left:18px">วันที่</th><th>เส้นทาง</th><th class="c">กม.</th><th class="r">ราคาเที่ยว</th><th class="r">จ่ายรถ</th><th class="c" style="padding-right:18px">%SPDO</th></tr></thead>
+              <tbody class="tnum">
+                <tr><td style="padding-left:18px">6 มิ.ย.</td><td>วังน้อย→ISP</td><td class="c">65</td><td class="r">฿1,760</td><td class="r">฿1,400</td><td class="c" style="padding-right:18px">20%</td></tr>
+                <tr style="background:var(--teal-soft)"><td style="padding-left:18px"><b>7 มิ.ย.</b> ◀</td><td><b>วังน้อย→TOG</b></td><td class="c">75</td><td class="r"><b>฿1,860</b></td><td class="r"><b>฿1,460</b></td><td class="c" style="padding-right:18px">20%</td></tr>
+                <tr><td style="padding-left:18px">8 มิ.ย.</td><td>วังน้อย→PRB</td><td class="c">84</td><td class="r">฿1,950</td><td class="r">฿1,550</td><td class="c" style="padding-right:18px">20%</td></tr>
+                <tr><td style="padding-left:18px">8 มิ.ย.</td><td>วังน้อย→SNA</td><td class="c">52</td><td class="r">฿1,620</td><td class="r">฿1,200</td><td class="c" style="padding-right:18px">20%</td></tr>
+                <tr><td style="padding-left:18px">9 มิ.ย.</td><td>วังน้อย→TOG</td><td class="c">75</td><td class="r">฿1,860</td><td class="r">฿1,460</td><td class="c" style="padding-right:18px">20%</td></tr>
+              </tbody>
+              <tfoot><tr><td style="padding-left:18px">ยอดรวมรอบ 1–15</td><td>—</td><td class="c">—</td><td class="r">฿23,475</td><td class="r">฿18,180</td><td class="c" style="padding-right:18px">—</td></tr></tfoot>
+            </table>
+          </div></div>
 
           <div>
-            <div class="calcbox" style="margin-bottom:14px;">
+            <div class="calcbox" data-job-only="LM" style="margin-bottom:14px;">
               <div class="ct">คิดเงินวันที่ 2 มิ.ย. (เรียลไทม์)</div>
               <div class="cr"><span class="k">ค่าเหมา/วันฐาน (FIX) <span style="color:#9fb0cc;font-size:10px">· เด้งเพราะมาทำงาน</span></span><span class="v" style="color:#cfe">+฿533.33</span></div>
               <div class="cr"><span class="k">รายรับ SPX</span><span class="v tealv">฿1,256</span></div>
               <div class="cr"><span class="k">จ่ายคนรถ SPDO</span><span class="v">฿835</span></div>
               <div class="cr"><span class="k">กำไรวันนี้</span><span class="v mv">฿421</span></div>
               <div class="hint" style="color:#5fe0cf;margin-top:8px"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ผ่านการตรวจ: จ่ายออก ≤ รับเข้า</div>
+            </div>
+
+            <div class="calcbox" data-job-only="FM" style="margin-bottom:14px;">
+              <div class="ct">คิดเงินวันที่ 2 มิ.ย. (FM)</div>
+              <div class="cr"><span class="k">รายรับ SPX (CBM1)</span><span class="v tealv">฿1,358.80</span></div>
+              <div class="cr"><span class="k">จ่ายรถ SPDO (เหมาจุด)</span><span class="v">฿1,100</span></div>
+              <div class="cr"><span class="k">ค่าผู้ช่วย (helper)</span><span class="v">฿0</span></div>
+              <div class="cr"><span class="k">กำไรวันนี้</span><span class="v mv">฿258.80</span></div>
+            </div>
+
+            <div class="calcbox" data-job-only="LH" style="margin-bottom:14px;">
+              <div class="ct">คิดเงินเที่ยว 7 มิ.ย. (LH)</div>
+              <div class="cr"><span class="k">ราคาเที่ยว (วังน้อย→TOG)</span><span class="v tealv">฿1,860</span></div>
+              <div class="cr"><span class="k">จ่ายรถ SPDO</span><span class="v">฿1,460</span></div>
+              <div class="cr"><span class="k">หัก %SPDO (20%)</span><span class="v" style="color:#ffd27a">−฿372</span></div>
+              <div class="cr"><span class="k">กำไรเที่ยวนี้</span><span class="v mv">฿400</span></div>
             </div>
 
             <div class="phone">
@@ -542,7 +649,7 @@
       <!-- ============ DRIVERS ============ -->
       <section class="screen" id="drivers">
         <div class="ptitle"><h2>ทะเบียนคนรถ</h2><span class="en">Drivers</span></div>
-        <div class="psub">ข้อมูลคนรถทั้งหมดในที่เดียว — เพิ่มคนใหม่ = เพิ่ม 1 แถว ไม่ต้องสร้างชีต · รหัส (driver_id) เป็นคีย์ถาวร กันปัญหาชื่อพิมพ์ไม่ตรง · <b>1 คนรับได้หลายประเภทงาน</b> (LM/FM/LH) — เช่น นพพล·วิสูตร อยู่ทั้ง FM และ LH (รถคันเดียวกัน)</div>
+        <div class="psub">ข้อมูลคนรถทั้งหมดในที่เดียว — เพิ่มคนใหม่ = เพิ่ม 1 แถว ไม่ต้องสร้างชีต · รหัส (driver_id) เป็นคีย์ถาวร กันปัญหาชื่อพิมพ์ไม่ตรง · <b>1 คนรับได้หลายประเภทงาน</b> (LM/FM/LH) — เช่น คนรถ 18 อยู่ทั้ง FM และ LH (รถคันเดียวกัน)</div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
           <div class="chips" style="margin:0;"><span class="chip on">ทั้งหมด (30)</span><span class="chip">ทำงาน (26)</span><span class="chip">ตำแหน่งว่าง (4)</span></div>
           <div class="sp" style="flex:1"></div>
@@ -555,7 +662,7 @@
               <tr><td style="padding-left:18px" class="mini">DRV-01</td><td>คนรถ 01</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td>รายเดือน</td><td class="tnum">1กก 1201</td><td class="mini">1 พ.ค. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
               <tr><td style="padding-left:18px" class="mini">DRV-02</td><td>คนรถ 02</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td>รายเดือน</td><td class="tnum">1กก 1202</td><td class="mini">1 พ.ค. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
               <tr><td style="padding-left:18px" class="mini">DRV-05</td><td>คนรถ 05</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td>รายเดือน</td><td class="tnum">2ขข 3344</td><td class="mini">16 พ.ค. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
-              <tr><td style="padding-left:18px" class="mini">DRV-07</td><td>คนรถ 07</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td>รายเดือน</td><td class="tnum">3คค 6961</td><td class="mini">16 พ.ค. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
+              <tr><td style="padding-left:18px" class="mini">DRV-07</td><td>คนรถ 07</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t4">4W เดือน</span></td><td>รายเดือน</td><td class="tnum">3คค 7007</td><td class="mini">16 พ.ค. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
               <tr><td style="padding-left:18px" class="mini">DRV-09</td><td>คนรถ 09</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t2">2W เดือน</span></td><td>รายเดือน</td><td class="tnum">กพ 5521</td><td class="mini">1 มิ.ย. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
               <tr><td style="padding-left:18px" class="mini">DRV-10</td><td>คนรถ 10</td><td class="tag-hub">บางปะอิน</td><td><span class="pill t2">2W เดือน</span></td><td>รายเดือน</td><td class="tnum">กพ 5522</td><td class="mini">1 มิ.ย. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
               <tr><td style="padding-left:18px" class="mini">DRV-11</td><td>คนรถ 11</td><td class="tag-hub">อยุธยา</td><td><span class="pill day">รายวัน 2W</span></td><td>รายวัน</td><td class="tnum">ขก 7781</td><td class="mini">8 มิ.ย. 69</td><td class="c" style="padding-right:18px"><span class="pill ok">ทำงาน</span></td></tr>
