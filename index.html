@@ -166,6 +166,9 @@
     .pickr{display:none;}
     .slip{max-width:none;}
     dialog#help{max-width:none;}
+    #entryTable{min-width:0;}
+    #entryTable th:nth-child(n+4):nth-child(-n+6),
+    #entryTable td:nth-child(n+4):nth-child(-n+6){display:none;}
   }
   @media (max-width:430px){
     .helpbtn span,.helpbtn{font-size:0;gap:0;padding:8px;}
@@ -331,13 +334,13 @@
 
         <div class="splitde">
           <div class="card" style="padding:14px 0 4px;">
-            <div style="display:flex;align-items:center;gap:10px;padding:0 18px 12px;">
+            <div style="display:flex;align-items:center;gap:10px 12px;padding:0 18px 12px;flex-wrap:wrap;">
               <div class="avatar" style="background:var(--teal)">07</div>
               <div><div style="font-weight:700;color:var(--navy);font-size:14px">คนรถ 07</div><div class="mini">บางปะอิน · 4W รายเดือน · ทะเบียน กx 0000 · หยุดเสาร์</div></div>
               <div class="sp" style="flex:1"></div>
               <div class="chips" style="margin:0;padding-right:18px"><span class="chip on">รอบ 1–15</span><span class="chip">รอบ 16–30</span></div>
             </div>
-            <table>
+            <table id="entryTable">
               <thead><tr><th style="padding-left:18px">วันที่</th><th class="r">รับเข้า</th><th class="r">จ่ายออก</th><th class="r">S</th><th class="r">L</th><th class="r">RST</th><th class="r">SPX</th><th class="r" style="padding-right:18px">SPDO</th></tr></thead>
               <tbody class="tnum">
                 <tr><td style="padding-left:18px">1 มิ.ย.</td><td class="r">152</td><td class="r">146</td><td class="r">64</td><td class="r">82</td><td class="r">0</td><td class="r">฿742</td><td class="r" style="padding-right:18px">฿590</td></tr>
