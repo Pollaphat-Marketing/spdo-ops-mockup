@@ -140,6 +140,31 @@
   .recobox .big{font-size:23px;font-weight:700;color:var(--teal-d);}
   .deltaneg{color:var(--red);font-weight:700;}
   .note{font-size:11px;color:var(--muted);margin-top:10px;}
+
+  /* HELP MODAL */
+  .helpbtn{display:flex;align-items:center;gap:6px;border:1px solid #bfe6df;background:var(--teal-soft);color:var(--teal-d);border-radius:9px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .helpbtn:hover{background:#d6efea;}
+  .helpbtn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;}
+  dialog#help{position:fixed;inset:0;margin:auto;height:max-content;max-height:88vh;overflow:auto;border:none;border-radius:16px;padding:0;max-width:460px;width:92vw;color:var(--ink);box-shadow:0 24px 70px rgba(16,36,63,.30);}
+  dialog#help::backdrop{background:rgba(16,36,63,.45);}
+  dialog#help[open]{animation:helpin .19s cubic-bezier(.2,.8,.2,1);}
+  @keyframes helpin{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){dialog#help[open]{animation:none}}
+  .help-hd{background:#1f3343;color:#fff;padding:17px 20px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+  .help-hd .k{font-size:10px;letter-spacing:.4px;color:#9fd8d1;font-weight:600;}
+  .help-hd h3{font-size:16px;font-weight:700;margin-top:2px;}
+  .help-hd .x{background:rgba(255,255,255,.13);border:none;color:#fff;width:28px;height:28px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .help-hd .x:hover{background:rgba(255,255,255,.24);}
+  .help-hd .x svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;}
+  .help-bd{padding:18px 22px;font-size:13px;line-height:1.6;}
+  .help-bd p{margin:0 0 13px;color:var(--ink);}
+  .help-bd ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;}
+  .help-bd li{display:flex;gap:10px;align-items:flex-start;}
+  .help-bd li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);margin-top:6px;flex:0 0 auto;}
+  .help-bd b{color:var(--navy);font-weight:700;}
+  .help-ft{padding:2px 22px 20px;display:flex;justify-content:flex-end;}
+  .help-ft button{background:var(--teal);color:#fff;border:none;border-radius:10px;padding:10px 24px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+  .help-ft button:hover{background:var(--teal-d);}
 </style>
 </head>
 <body>
@@ -171,6 +196,7 @@
       <h1 id="toptitle">แดชบอร์ด</h1>
       <div class="sp"></div>
       <div class="pickr"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#23365c" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg> มิถุนายน 2026</div>
+      <button class="helpbtn" id="helpBtn" aria-label="วิธีใช้งานหน้านี้"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .8-1 1.7"/><line x1="12" y1="17" x2="12" y2="17"/></svg> วิธีใช้</button>
       <div class="iconbtn"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
       <div class="avatar">AD</div>
     </div>
@@ -399,11 +425,22 @@
   </div>
 </div>
 
+<dialog id="help" aria-labelledby="help-title">
+  <div class="help-hd">
+    <div><div class="k">วิธีใช้งานหน้านี้</div><h3 id="help-title">วิธีใช้</h3></div>
+    <button class="x" id="helpClose" aria-label="ปิด"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="help-bd" id="help-body"></div>
+  <div class="help-ft"><button id="helpOk">เข้าใจแล้ว</button></div>
+</dialog>
+
 <script>
   const titles={dash:'แดชบอร์ด',summary:'ใบคุมเที่ยว',entry:'บันทึกรายวัน',reco:'กระทบยอด Settlement',slip:'ใบจ่ายคนรถ',plan:'แผนงานพัฒนา'};
   function sizePlan(){try{var f=document.getElementById('planframe');if(f&&f.contentWindow&&f.contentWindow.document&&f.contentWindow.document.documentElement){var h=f.contentWindow.document.documentElement.scrollHeight;if(h>200)f.style.height=(h+24)+'px';}}catch(e){}}
+  let current='dash';
   function go(s){
     if(!document.getElementById(s))s='dash';
+    current=s;
     document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id===s));
     document.querySelectorAll('.nav a[data-s]').forEach(a=>a.classList.toggle('on',a.dataset.s===s));
     document.getElementById('toptitle').textContent=titles[s]||'';
@@ -411,6 +448,40 @@
     if(s==='plan'){setTimeout(sizePlan,80);setTimeout(sizePlan,450);}
     if(location.hash!=='#'+s)history.replaceState(null,'','#'+s);
   }
+  const HELP={
+    dash:{t:'แดชบอร์ด',b:'<p>ภาพรวมธุรกิจทั้งเดือนในหน้าเดียว</p><ul>'+
+      '<li><b>การ์ดด้านบน</b> — รายรับ SPX, ต้นทุนจ่ายคนรถ SPDO, กำไรขั้นต้น (เน้นสีเทียล) และจำนวนคนรถ</li>'+
+      '<li><b>รายรับ vs ต้นทุน ต่อ Hub</b> — เทียบผลแต่ละสาขา</li>'+
+      '<li><b>กล่อง "ต้องตรวจสอบ"</b> — ระบบจับความผิดปกติให้อัตโนมัติ เช่น ยอดจ่ายไม่ตรงรอบบิล</li>'+
+      '<li><b>แถบ Settlement</b> — สถานะกระทบยอดกับแพลตฟอร์ม กด "ดูทั้งหมด" เพื่อดูรายละเอียด</li></ul>'},
+    summary:{t:'ใบคุมเที่ยว (อัตโนมัติ)',b:'<p>สรุปยอดทุกคนอัตโนมัติ แทนชีตสรุปเดิม</p><ul>'+
+      '<li><b>ชิปกรอง</b>ด้านบน — กรองตามประเภทรถ (4W / 2W / รายวัน)</li>'+
+      '<li><b>แถวพื้นแดง + ไอคอนเตือน</b> — ข้อมูลผิดปกติที่ระบบตรวจพบ</li>'+
+      '<li><b>ป้าย "0 error"</b> — ตรวจครบทุกแถว ไม่มีสูตรพัง</li>'+
+      '<li><b>แถวล่างสุด</b> — ยอดรวมทั้งบริษัท</li></ul>'},
+    entry:{t:'บันทึกงานรายวัน',b:'<p>กรอกข้อมูลดิบ ระบบคิดเงินให้ทันที</p><ul>'+
+      '<li>เลือก<b>คนรถ</b>และ<b>รอบบิล</b> (1–15 / 16–30) ด้านบน</li>'+
+      '<li>กรอกเฉพาะ<b>ข้อมูลดิบ</b> (รับเข้า/จ่ายออก/ไซส์/RST) — ช่อง SPX/SPDO คำนวณให้เอง</li>'+
+      '<li><b>กล่องน้ำเงินขวา</b> — ยอดเรียลไทม์ของวันที่เลือก + ผลตรวจความถูกต้อง</li>'+
+      '<li>คนรถกรอกเองผ่าน <b>LINE</b> ได้ (ฟอร์มตัวอย่างด้านขวา)</li></ul>'},
+    reco:{t:'กระทบยอด Settlement',b:'<p>เทียบยอดที่ระบบคิดกับเงินที่แพลตฟอร์มโอนจริง</p><ul>'+
+      '<li><b>ยอดที่ระบบคิด</b> เทียบ <b>เงินที่โอนจริง</b></li>'+
+      '<li><b>ส่วนต่างติดลบ</b> = จ่ายขาด/ถูกหัก ต้องตามเคลม</li>'+
+      '<li><b>ป้ายสถานะ</b> — ตรง / จ่ายขาด / ไซส์ไม่ตรง / ยังไม่จ่าย</li>'+
+      '<li><b>กล่องล่าง</b> — เทียบกำไรบนกระดาษ vs กำไรจริง + ยอดที่ต้องเคลมคืน</li></ul>'},
+    slip:{t:'ใบจ่ายคนรถ',b:'<p>สลิปจ่ายต่อคนต่อรอบบิล</p><ul>'+
+      '<li>แจกแจง<b>ค่าแรงตามชิ้น/ไซส์</b> และ<b>รายการหัก</b> (Same/POOH/LOST/เบิก)</li>'+
+      '<li>ปุ่ม <b>ดาวน์โหลด PDF</b> หรือ <b>ส่งเข้า LINE</b> ส่งให้คนรถได้ทันที</li></ul>'},
+    plan:{t:'แผนงานพัฒนา',b:'<p>ข้อเสนอโครงการฉบับเต็มอยู่ในหน้านี้</p><ul>'+
+      '<li><b>เปิดเต็มหน้า</b> — เปิดข้อเสนอในแท็บใหม่</li>'+
+      '<li><b>ดาวน์โหลด PDF</b> — บันทึกไฟล์ข้อเสนอ</li></ul>'}
+  };
+  const dlg=document.getElementById('help');
+  function openHelp(){var h=HELP[current]||HELP.dash;document.getElementById('help-title').textContent=h.t;document.getElementById('help-body').innerHTML=h.b;if(dlg&&dlg.showModal)dlg.showModal();}
+  document.getElementById('helpBtn').addEventListener('click',openHelp);
+  document.getElementById('helpClose').addEventListener('click',function(){dlg.close();});
+  document.getElementById('helpOk').addEventListener('click',function(){dlg.close();});
+  dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();});
   var pf=document.getElementById('planframe');if(pf)pf.addEventListener('load',sizePlan);
   document.querySelectorAll('[data-s]').forEach(a=>a.addEventListener('click',()=>go(a.dataset.s)));
   go((location.hash||'#dash').slice(1));
