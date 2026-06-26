@@ -158,7 +158,8 @@
     .scrim{position:fixed;inset:0;background:rgba(16,36,63,.45);z-index:55;}
     body.nav-open .scrim{display:block;}
     .content{padding:18px 15px 28px;}
-    .grid4,.grid3,.row2,.splitde{grid-template-columns:1fr;}
+    .grid4,.grid3,.row2,.splitde,.forms3{grid-template-columns:1fr;}
+    .drv-stats{grid-template-columns:1fr;}
     .card:has(> table){overflow-x:auto;-webkit-overflow-scrolling:touch;}
     .card > table{min-width:580px;}
     .top{padding:0 13px;gap:9px;}
@@ -200,6 +201,46 @@
   .help-ft{padding:2px 22px 20px;display:flex;justify-content:flex-end;}
   .help-ft button{background:var(--teal);color:#fff;border:none;border-radius:10px;padding:10px 24px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
   .help-ft button:hover{background:var(--teal-d);}
+
+  /* ROLE + JOB SWITCHER */
+  .segmented{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--soft);flex:0 0 auto;}
+  .segmented button{border:none;background:transparent;font-family:inherit;font-size:11.5px;font-weight:600;color:var(--muted);padding:7px 12px;cursor:pointer;border-right:1px solid var(--line);}
+  .segmented button:last-child{border-right:none;} .segmented button.on{background:var(--teal);color:#fff;}
+  .rolesel{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--soft);border-radius:9px;padding:5px 9px;font-size:11.5px;color:var(--navy2);}
+  .rolesel svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .rolesel select{border:none;background:transparent;font-family:inherit;font-weight:700;color:var(--navy);font-size:12px;cursor:pointer;outline:none;}
+  /* job-type conditional blocks */
+  [data-job-only]{display:none;}
+  body[data-job="LM"] [data-job-only~="LM"],body[data-job="FM"] [data-job-only~="FM"],body[data-job="LH"] [data-job-only~="LH"]{display:block;}
+  .jobtag{font-size:10px;font-weight:700;padding:3px 9px;border-radius:7px;background:var(--teal-soft);color:var(--teal-d);vertical-align:middle;}
+  /* role-based access */
+  .banner{display:none;align-items:center;gap:9px;padding:10px 14px;border-radius:11px;margin-bottom:18px;font-size:12px;font-weight:600;}
+  .banner svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9;flex:0 0 auto;}
+  body[data-role="admin"] .banner.admin{display:flex;background:var(--amber-soft);color:#8a5e0c;border:1px solid #efdca8;}
+  body[data-role="admin"] .money{display:none !important;}
+  body[data-role="admin"] .nav a[data-s="rates"],body[data-role="admin"] .nav a[data-s="plan"],body[data-role="admin"] .nav a[data-s="reco"],body[data-role="admin"] .nav a[data-s="slip"]{display:none;}
+  body:not([data-role="driver"]) .nav a[data-s="driverview"]{display:none;}
+  body[data-role="driver"] .nav a:not([data-s="driverview"]),body[data-role="driver"] .navlbl{display:none;}
+  body[data-role="driver"] .pickr{display:none;}
+  body[data-role="driver"] .navlbl.drv{display:block;}
+  .navlbl.drv{display:none;}
+
+  /* DRIVER VIEW */
+  .drv-hero{background:#1f3343;color:#fff;border-radius:16px;padding:18px 20px;margin-bottom:18px;}
+  .drv-hero .nm{font-size:17px;font-weight:700;} .drv-hero .meta{font-size:11.5px;color:#9fb0cc;margin-top:3px;}
+  .drv-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
+  .drv-stats .st{background:rgba(255,255,255,.08);border-radius:11px;padding:11px 13px;}
+  .drv-stats .st .l{font-size:10.5px;color:#9fb0cc;} .drv-stats .st .v{font-size:18px;font-weight:700;margin-top:3px;}
+  .drv-stats .st .v.tealv{color:#5fe0cf;} .drv-stats .st .v.amberv{color:#ffd27a;}
+  .forms3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;}
+  .miniform{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;}
+  .miniform h4{font-size:12.5px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:7px;margin-bottom:11px;}
+  .miniform h4 .n{width:20px;height:20px;border-radius:6px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;}
+  .miniform .fl{font-size:10.5px;color:var(--muted);margin:8px 0 3px;}
+  .miniform .fv{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px;font-weight:600;color:var(--navy);}
+  .miniform .send{background:var(--teal);color:#fff;text-align:center;padding:9px;border-radius:9px;font-weight:700;font-size:12.5px;margin-top:12px;}
+  .miniform.fuel h4 .n{background:var(--orange);} .miniform.adv h4 .n{background:var(--navy2);}
+  @media (max-width:820px){ .forms3,.drv-stats{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
@@ -209,6 +250,8 @@
   <aside class="side">
     <div class="brand"><div class="logo">S</div><div><b>SPDO Ops</b><span>Delivery &amp; Billing</span></div></div>
     <div class="nav">
+      <div class="navlbl drv">คนรถ</div>
+      <a data-s="driverview"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>หน้าของฉัน</a>
       <div class="navlbl">ภาพรวม</div>
       <a data-s="dash" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>แดชบอร์ด</a>
       <a data-s="summary"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="20"/></svg>ใบคุมเที่ยว</a>
@@ -231,7 +274,9 @@
     <div class="top">
       <button class="menubtn" id="menuBtn" aria-label="ซ่อน/แสดงเมนู"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
       <h1 id="toptitle">แดชบอร์ด</h1>
+      <div class="segmented" id="jobseg" title="ประเภทงาน"><button data-job="LM" class="on">LM</button><button data-job="FM">FM</button><button data-job="LH">LH</button></div>
       <div class="sp"></div>
+      <div class="rolesel"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>มุมมอง:<select id="roleSel"><option value="owner">เจ้าของ</option><option value="admin">แอดมิน</option><option value="driver">คนรถ</option></select></div>
       <div class="pickr"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#23365c" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg> มิถุนายน 2026</div>
       <button class="helpbtn" id="helpBtn" aria-label="วิธีใช้งานหน้านี้"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .8-1 1.7"/><line x1="12" y1="17" x2="12" y2="17"/></svg> วิธีใช้</button>
       <div class="iconbtn"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
@@ -239,12 +284,59 @@
     </div>
     <div class="content">
 
+      <!-- ============ DRIVER VIEW ============ -->
+      <section class="screen" id="driverview">
+        <div class="ptitle"><h2>หน้าของฉัน</h2><span class="en">My page</span></div>
+        <div class="psub">คนรถเห็นเฉพาะข้อมูลของตัวเอง — กรอกงาน/น้ำมัน/เบิกเอง และดูยอดของตัวเอง (ไม่เห็นข้อมูลคนอื่น)</div>
+        <div class="drv-hero">
+          <div class="nm">คนรถ 07 · บางปะอิน</div>
+          <div class="meta">4W รายเดือน · ทะเบียน กx 0000 · รับงาน: <b style="color:#5fe0cf">LM</b> · <b style="color:#5fe0cf">FM</b></div>
+          <div class="drv-stats">
+            <div class="st"><div class="l">งวดนี้ (1–15) คาดได้รับ</div><div class="v tealv">฿11,417</div></div>
+            <div class="st"><div class="l">ส่งแล้วเดือนนี้</div><div class="v">2,717 ชิ้น</div></div>
+            <div class="st"><div class="l">ยอดค้างรับ (รอบ 16–30)</div><div class="v amberv">฿3,832</div></div>
+          </div>
+        </div>
+        <div class="forms3">
+          <div class="miniform"><h4><span class="n">1</span> บันทึกงานวันนี้</h4>
+            <div class="fl">รับเข้า (ชิ้น)</div><div class="fv">192</div>
+            <div class="fl">จ่ายออก (ชิ้น)</div><div class="fv">178</div>
+            <div class="fl">งานคืน (RST)</div><div class="fv">0</div>
+            <div class="send">บันทึก → คิดค่าแรงทันที</div>
+          </div>
+          <div class="miniform fuel"><h4><span class="n">2</span> ฟีดการ์ด / น้ำมัน</h4>
+            <div class="fl">ค่าน้ำมันวันนี้ (บาท)</div><div class="fv">350</div>
+            <div class="fl">หลักฐาน</div><div class="fv" style="color:var(--muted);font-weight:400">📷 แนบรูปสลิป</div>
+            <div class="send" style="background:var(--orange)">ส่งค่าน้ำมัน</div>
+          </div>
+          <div class="miniform adv"><h4><span class="n">3</span> ขอเบิก</h4>
+            <div class="fl">จำนวนเงินที่ขอเบิก (บาท)</div><div class="fv">1,000</div>
+            <div class="fl">เหตุผล</div><div class="fv" style="font-weight:400">เบิกล่วงหน้า</div>
+            <div class="send" style="background:var(--navy2)">ส่งคำขอเบิก</div>
+          </div>
+        </div>
+        <div class="card" style="padding:4px 0;">
+          <h3 style="padding:14px 18px 0">ประวัติงานของฉัน (ล่าสุด)</h3>
+          <table>
+            <thead><tr><th style="padding-left:18px">วันที่</th><th class="r">รับเข้า</th><th class="r">จ่ายออก</th><th class="r">ค่าแรงวันนั้น</th><th class="r" style="padding-right:18px">สถานะ</th></tr></thead>
+            <tbody class="tnum">
+              <tr><td style="padding-left:18px">7 มิ.ย.</td><td class="r">159</td><td class="r">155</td><td class="r">฿645</td><td class="r" style="padding-right:18px"><span class="pill ok">บันทึกแล้ว</span></td></tr>
+              <tr><td style="padding-left:18px">6 มิ.ย.</td><td class="r">158</td><td class="r">149</td><td class="r">฿527</td><td class="r" style="padding-right:18px"><span class="pill ok">บันทึกแล้ว</span></td></tr>
+              <tr><td style="padding-left:18px">5 มิ.ย.</td><td class="r">151</td><td class="r">148</td><td class="r">฿617</td><td class="r" style="padding-right:18px"><span class="pill ok">บันทึกแล้ว</span></td></tr>
+              <tr><td style="padding-left:18px">4 มิ.ย.</td><td class="r">144</td><td class="r">139</td><td class="r">฿513</td><td class="r" style="padding-right:18px"><span class="pill ok">บันทึกแล้ว</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <!-- ============ DASHBOARD ============ -->
       <section class="screen on" id="dash">
         <div class="ptitle"><h2>ภาพรวมเดือนมิถุนายน</h2><span class="en">Owner dashboard</span></div>
         <div class="psub">สรุปรายรับ–ต้นทุน–กำไร แบบเรียลไทม์ จากข้อมูลคนรถ 26 คน · อัปเดตล่าสุด 25 มิ.ย. 08:30</div>
 
-        <div class="grid4">
+        <div class="banner admin"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>โหมดแอดมิน — ซ่อนข้อมูลการเงิน/มาร์จิ้น/เรท · เห็นเฉพาะการคุมเที่ยวและสถานะคนรถ</div>
+
+        <div class="grid4 money">
           <div class="metric"><div class="l">รายรับจากแพลตฟอร์ม (SPX)</div><div class="v">฿318,325</div><div class="d up">▲ 8.2% จากเดือนก่อน</div></div>
           <div class="metric"><div class="l">ต้นทุนจ่ายคนรถ (SPDO)</div><div class="v">฿264,098</div><div class="d flat">82.9% ของรายรับ</div></div>
           <div class="metric hero"><div class="l">กำไรขั้นต้น (บนกระดาษ)</div><div class="v">฿54,227</div><div class="d">17.0% margin · ดีขึ้น</div></div>
@@ -252,7 +344,7 @@
         </div>
 
         <div class="row2">
-          <div class="card">
+          <div class="card money">
             <h3>รายรับ vs ต้นทุน ต่อ Hub</h3>
             <div class="bars">
               <div class="barrow"><div class="bl"><b>บางปะอิน (ABPIN)</b><span>SPX ฿268,000 · SPDO ฿222,300</span></div><div class="track"><i class="spx" style="width:100%"></i></div><div class="track" style="margin-top:3px"><i class="spdo" style="width:83%"></i></div></div>
@@ -277,7 +369,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card money">
           <h3>สถานะการกระทบยอดกับแพลตฟอร์ม (Settlement) <a data-s="reco" style="font-size:11px;color:var(--teal);font-weight:600;cursor:pointer">ดูทั้งหมด →</a></h3>
           <div class="grid3">
             <div style="border:1px solid var(--line);border-radius:11px;padding:15px 17px;"><div class="mini">SPX รอบ 1–15 มิ.ย.</div><div style="font-size:18px;font-weight:700;color:var(--navy);margin:4px 0">฿134,200</div><span class="pill ok">✓ กระทบยอดตรง</span></div>
@@ -358,6 +450,7 @@
           <div>
             <div class="calcbox" style="margin-bottom:14px;">
               <div class="ct">คิดเงินวันที่ 2 มิ.ย. (เรียลไทม์)</div>
+              <div class="cr"><span class="k">ค่าเหมา/วันฐาน (FIX) <span style="color:#9fb0cc;font-size:10px">· เด้งเพราะมาทำงาน</span></span><span class="v" style="color:#cfe">+฿533.33</span></div>
               <div class="cr"><span class="k">รายรับ SPX</span><span class="v tealv">฿1,256</span></div>
               <div class="cr"><span class="k">จ่ายคนรถ SPDO</span><span class="v">฿835</span></div>
               <div class="cr"><span class="k">กำไรวันนี้</span><span class="v mv">฿421</span></div>
@@ -434,8 +527,9 @@
             <div class="li"><span class="k">ค่าฐานวันทำงาน (21 วัน)</span><span class="v">฿1,088</span></div>
             <div class="li"><span class="k">งานคืน (RST) 1 ชิ้น</span><span class="v">฿0</span></div>
             <div class="li minus"><span class="k">หัก — ค่าที่อยู่ (Same) / ค่าปรับ (POOH)</span><span class="v">−฿0</span></div>
+            <div class="li minus"><span class="k">หัก — ค่าน้ำมัน / ฟีดการ์ด</span><span class="v">−฿0</span></div>
             <div class="li minus"><span class="k">หัก — ของหาย (LOST) / เบิกล่วงหน้า</span><span class="v">−฿0</span></div>
-            <div class="li sub"><span>รอบ 1–15: ฿7,586</span><span>รอบ 16–30: ฿3,832</span></div>
+            <div class="li sub"><span>งานในงวดนี้: <b style="color:var(--navy)">LM ฿11,417</b> · รวมข้ามงาน (FM/LH) อัตโนมัติถ้ามี</span><span>รอบ 1–15: ฿7,586 · 16–30: ฿3,832</span></div>
             <div class="li total"><span class="k">ยอดจ่ายสุทธิ</span><span class="v">฿11,417.15</span></div>
           </div>
           <div class="slipfoot">
@@ -448,7 +542,7 @@
       <!-- ============ DRIVERS ============ -->
       <section class="screen" id="drivers">
         <div class="ptitle"><h2>ทะเบียนคนรถ</h2><span class="en">Drivers</span></div>
-        <div class="psub">ข้อมูลคนรถทั้งหมดในที่เดียว — เพิ่มคนใหม่ = เพิ่ม 1 แถว ไม่ต้องสร้างชีต · รหัส (driver_id) เป็นคีย์ถาวร กันปัญหาชื่อพิมพ์ไม่ตรง</div>
+        <div class="psub">ข้อมูลคนรถทั้งหมดในที่เดียว — เพิ่มคนใหม่ = เพิ่ม 1 แถว ไม่ต้องสร้างชีต · รหัส (driver_id) เป็นคีย์ถาวร กันปัญหาชื่อพิมพ์ไม่ตรง · <b>1 คนรับได้หลายประเภทงาน</b> (LM/FM/LH) — เช่น นพพล·วิสูตร อยู่ทั้ง FM และ LH (รถคันเดียวกัน)</div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
           <div class="chips" style="margin:0;"><span class="chip on">ทั้งหมด (30)</span><span class="chip">ทำงาน (26)</span><span class="chip">ตำแหน่งว่าง (4)</span></div>
           <div class="sp" style="flex:1"></div>
@@ -479,17 +573,63 @@
       <!-- ============ RATES ============ -->
       <section class="screen" id="rates">
         <div class="ptitle"><h2>ตารางเรท (Rate Card)</h2><span class="en">Rate card</span></div>
-        <div class="psub">เรทคิดเงินแยกตาม ประเภทรถ × รูปแบบจ้าง × ไซส์ × ฝั่ง (SPX รายรับ / SPDO ต้นทุน) · เปลี่ยนเรท = เพิ่มเวอร์ชันใหม่ บิลย้อนหลังยังคิดด้วยเรทเดิมเสมอ</div>
-        <div class="card" style="padding:4px 0;margin-bottom:18px;">
+        <div class="psub">เรทแยกตาม <b>ประเภทงาน</b> (สลับที่ปุ่ม LM/FM/LH มุมบน) — แต่ละงานคิดคนละโมเดล · เปลี่ยนเรท = เพิ่มเวอร์ชันใหม่ บิลย้อนหลังยังคิดด้วยเรทเดิมเสมอ</div>
+
+        <div data-job-only="LM">
+          <div class="card" style="padding:4px 0;margin-bottom:14px;">
+            <h3 style="padding:14px 18px 0">LM — ต่อชิ้น × ไซส์ <span class="jobtag">Shopee SPX / Lazada</span></h3>
+            <table>
+              <thead><tr><th style="padding-left:18px">ประเภท</th><th class="c">ขั้นต่ำ (ชิ้น)</th><th class="r">ฐาน/วัน SPX</th><th class="r">ฐาน/วัน SPDO</th><th class="c">เรท S<br><span class="mini" style="font-weight:400">SPX/SPDO</span></th><th class="c">เรท L2</th><th class="c" style="padding-right:18px">เรท L3</th></tr></thead>
+              <tbody class="tnum">
+                <tr><td style="padding-left:18px"><span class="pill t4">4W รายเดือน</span></td><td class="c">70</td><td class="r">฿615.39</td><td class="r">฿533.33</td><td class="c">8 / 6</td><td class="c">12 / 10</td><td class="c" style="padding-right:18px">13 / 11</td></tr>
+                <tr><td style="padding-left:18px"><span class="pill t2">2W รายเดือน</span></td><td class="c">90</td><td class="r">฿615.39</td><td class="r">฿466.66</td><td class="c">6 / 5</td><td class="c">6 / 5</td><td class="c" style="padding-right:18px">7 / 6</td></tr>
+                <tr><td style="padding-left:18px"><span class="pill day">รายวัน (เหมา/วัน)</span></td><td class="c">65</td><td class="r">฿1,150</td><td class="r">฿1,000</td><td class="c">11 / 9</td><td class="c">ตามตกลง</td><td class="c" style="padding-right:18px">—</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div data-job-only="FM">
+          <div class="card" style="padding:4px 0;margin-bottom:14px;">
+            <h3 style="padding:14px 18px 0">FM-Pickup — เหมาต่อจุด + CBM + ค่าผู้ช่วย <span class="jobtag">รับเข้าจากร้านค้า</span></h3>
+            <table>
+              <thead><tr><th style="padding-left:18px">ประเภท</th><th class="r">SPX/CBM1</th><th class="r">SPX/CBM2</th><th class="r">SPDO ราคารถ/จุด</th><th class="r">ค่าผู้ช่วย</th><th class="r" style="padding-right:18px">ค่าจ้างพิเศษ</th></tr></thead>
+              <tbody class="tnum">
+                <tr><td style="padding-left:18px"><span class="pill t4">4WH-FM</span></td><td class="r">฿1,358.80</td><td class="r">฿2,100</td><td class="r">฿1,100 / ฿700</td><td class="r">ตามตกลง/จุด</td><td class="r" style="padding-right:18px">ตามงาน</td></tr>
+              </tbody>
+            </table>
+            <p class="mini" style="padding:0 18px 12px">หัก: สินค้าสูญหาย, น้ำมัน · คิดต่อจุด/ต่อวัน ตามจำนวนร้านที่รับเข้า · ค่าผู้ช่วย (helper) เป็น component แยก</p>
+          </div>
+        </div>
+
+        <div data-job-only="LH">
+          <div class="card" style="padding:4px 0;margin-bottom:14px;">
+            <h3 style="padding:14px 18px 0">LH (Line Haul) — ต่อเที่ยวตามเส้นทาง <span class="jobtag">SPX / Flash</span></h3>
+            <table>
+              <thead><tr><th style="padding-left:18px">เส้นทาง (ต้นทาง→ปลายทาง)</th><th class="c">ระยะ (กม.)</th><th class="r">ราคาเที่ยว</th><th class="r">จ่ายรถ (SPDO)</th><th class="c" style="padding-right:18px">%SPDO</th></tr></thead>
+              <tbody class="tnum">
+                <tr><td style="padding-left:18px">วังน้อย → อิสรภาพ (ISP)</td><td class="c">65</td><td class="r">฿1,760</td><td class="r">฿1,400</td><td class="c" style="padding-right:18px">20%</td></tr>
+                <tr><td style="padding-left:18px">วังน้อย → โพธิ์ทอง (TOG)</td><td class="c">75</td><td class="r">฿1,860</td><td class="r">฿1,460</td><td class="c" style="padding-right:18px">20%</td></tr>
+                <tr><td style="padding-left:18px">วังน้อย → พระพุทธบาท (PRB)</td><td class="c">84</td><td class="r">฿1,950</td><td class="r">฿1,550</td><td class="c" style="padding-right:18px">20%</td></tr>
+                <tr><td style="padding-left:18px">วังน้อย → เสนา (SNA)</td><td class="c">52</td><td class="r">฿1,620</td><td class="r">฿1,200</td><td class="c" style="padding-right:18px">20%</td></tr>
+              </tbody>
+            </table>
+            <p class="mini" style="padding:0 18px 12px">ราคาต่อเที่ยวตามเส้นทาง (RouteRateTable) · แพลตฟอร์ม SPX/Flash · หัก ค่าปรับ/น้ำมัน · %SPDO ผันได้ตามเส้นทาง</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:18px;">
+          <h3>เรทเฉพาะบุคคล (Per-driver override) <span class="pill bad">2 คน</span></h3>
           <table>
-            <thead><tr><th style="padding-left:18px">ประเภท</th><th class="c">ขั้นต่ำ (ชิ้น)</th><th class="r">ฐาน/วัน SPX</th><th class="r">ฐาน/วัน SPDO</th><th class="c">เรท S<br><span class="mini" style="font-weight:400">SPX / SPDO</span></th><th class="c">เรท L2<br><span class="mini" style="font-weight:400">SPX / SPDO</span></th><th class="c" style="padding-right:18px">เรท L3<br><span class="mini" style="font-weight:400">SPX / SPDO</span></th></tr></thead>
-            <tbody class="tnum">
-              <tr><td style="padding-left:18px"><span class="pill t4">4W รายเดือน</span></td><td class="c">70</td><td class="r">฿615.39</td><td class="r">฿533.33</td><td class="c">8 / 6</td><td class="c">12 / 10</td><td class="c" style="padding-right:18px">13 / 11</td></tr>
-              <tr><td style="padding-left:18px"><span class="pill t2">2W รายเดือน</span></td><td class="c">90</td><td class="r">฿615.39</td><td class="r">฿466.66</td><td class="c">6 / 5</td><td class="c">6 / 5</td><td class="c" style="padding-right:18px">7 / 6</td></tr>
-              <tr><td style="padding-left:18px"><span class="pill day">รายวัน (เหมา/วัน)</span></td><td class="c">65</td><td class="r">฿1,150</td><td class="r">฿1,000</td><td class="c">11 / 9</td><td class="c">ตามตกลง</td><td class="c" style="padding-right:18px">—</td></tr>
+            <thead><tr><th>คนรถ</th><th>ประเภทงาน</th><th>เรทที่ปรับ</th><th>แทนค่ากลาง</th><th class="c">เวอร์ชัน</th></tr></thead>
+            <tbody>
+              <tr><td>คนรถ 03</td><td><span class="pill t4">LM 4W</span></td><td>เรท S ต่อชิ้น (SPDO)</td><td class="tnum">5 <span class="mini">(แทน 6)</span></td><td class="c"><span class="pill ok">v2 · 1 พ.ค.</span></td></tr>
+              <tr><td>คนรถ 11</td><td><span class="pill day">LH</span></td><td>%SPDO</td><td class="tnum">22% <span class="mini">(แทน 20%)</span></td><td class="c"><span class="pill ok">v2 · 1 พ.ค.</span></td></tr>
             </tbody>
           </table>
+          <p class="mini" style="margin-top:8px">การคิดเงินจะใช้ <b>เรทเฉพาะบุคคล &gt; เรทกลาง</b> และเลือกตามวันทำงาน (เปลี่ยนเรทกลางเดือน บิลก่อนหน้ายังคิดเรทเดิม)</p>
         </div>
+
         <div class="grid3 ratecols">
           <div class="card"><h3 style="margin-bottom:8px">โบนัส (Incentive)</h3><div style="font-size:24px;font-weight:700;color:var(--teal-d)">10%</div><p class="mini" style="margin-top:6px">คิดจากยอดสุทธิตามเงื่อนไขที่ตกลง ท้ายรอบบิล</p></div>
           <div class="card"><h3 style="margin-bottom:8px">เวอร์ชันที่ใช้อยู่</h3><div style="font-weight:700;color:var(--navy)">v2 · มีผล 1 พ.ค. 2026</div><p class="mini" style="margin-top:6px">บิลตั้งแต่ 1 พ.ค. เป็นต้นไปคิดด้วยเรทชุดนี้</p></div>
@@ -524,7 +664,7 @@
 </dialog>
 
 <script>
-  const titles={dash:'แดชบอร์ด',summary:'ใบคุมเที่ยว',entry:'บันทึกรายวัน',reco:'กระทบยอด Settlement',slip:'ใบจ่ายคนรถ',drivers:'ทะเบียนคนรถ',rates:'ตารางเรท (Rate Card)',plan:'แผนงานพัฒนา'};
+  const titles={driverview:'หน้าของฉัน',dash:'แดชบอร์ด',summary:'ใบคุมเที่ยว',entry:'บันทึกรายวัน',reco:'กระทบยอด Settlement',slip:'ใบจ่ายคนรถ',drivers:'ทะเบียนคนรถ',rates:'ตารางเรท (Rate Card)',plan:'แผนงานพัฒนา'};
   function sizePlan(){try{var f=document.getElementById('planframe');if(f&&f.contentWindow&&f.contentWindow.document&&f.contentWindow.document.documentElement){var h=f.contentWindow.document.documentElement.scrollHeight;if(h>200)f.style.height=(h+24)+'px';}}catch(e){}}
   let current='dash';
   function go(s){
@@ -589,6 +729,22 @@
   });
   document.getElementById('scrim').addEventListener('click',function(){document.body.classList.remove('nav-open');});
   document.querySelectorAll('[data-s]').forEach(a=>a.addEventListener('click',()=>go(a.dataset.s)));
+
+  // Job-type switcher (LM/FM/LH)
+  function setJob(j){document.body.dataset.job=j;document.querySelectorAll('#jobseg button').forEach(b=>b.classList.toggle('on',b.dataset.job===j));}
+  document.querySelectorAll('#jobseg button').forEach(b=>b.addEventListener('click',()=>setJob(b.dataset.job)));
+  // Role switcher (owner/admin/driver)
+  function setRole(r){
+    document.body.dataset.role=r;
+    var av=document.querySelector('.avatar');
+    if(av)av.textContent = r==='driver'?'07':(r==='admin'?'AD':'นพ');
+    if(r==='driver')go('driverview');
+    else if(current==='driverview')go('dash');
+  }
+  document.getElementById('roleSel').addEventListener('change',function(){setRole(this.value);});
+
+  document.body.dataset.job='LM';
+  document.body.dataset.role='owner';
   go((location.hash||'#dash').slice(1));
 </script>
 </body>
