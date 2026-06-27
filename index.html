@@ -222,7 +222,7 @@
   .banner svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9;flex:0 0 auto;}
   body[data-role="admin"] .banner.admin{display:flex;background:var(--amber-soft);color:#8a5e0c;border:1px solid #efdca8;}
   body[data-role="admin"] .money{display:none !important;}
-  body[data-role="admin"] .nav a[data-s="rates"],body[data-role="admin"] .nav a[data-s="plan"],body[data-role="admin"] .nav a[data-s="reco"],body[data-role="admin"] .nav a[data-s="slip"],body[data-role="admin"] .navlbl.doc{display:none;}
+  body[data-role="admin"] .nav a[data-s="rates"],body[data-role="admin"] .nav a[data-s="plan"],body[data-role="admin"] .nav a[data-s="reco"],body[data-role="admin"] .nav a[data-s="slip"],body[data-role="admin"] .nav a[data-s="import"],body[data-role="admin"] .navlbl.doc{display:none;}
   body:not([data-role="driver"]) .nav a[data-s="driverview"]{display:none;}
   body[data-role="driver"] .nav a:not([data-s="driverview"]),body[data-role="driver"] .navlbl{display:none;}
   body[data-role="driver"] .pickr{display:none;}
@@ -262,6 +262,7 @@
       <div class="navlbl">ปฏิบัติการ</div>
       <a data-s="entry"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>บันทึกรายวัน</a>
       <a data-s="reco"><svg viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="21"/><path d="M5 7l-2 5h6z"/><path d="M19 7l-2 5h6z"/><path d="M5 21h14"/></svg>กระทบยอด</a>
+      <a data-s="import"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 9 12 4 17 9"/><line x1="12" y1="4" x2="12" y2="16"/></svg>นำเข้า SPX</a>
       <a data-s="slip"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>ใบจ่ายคนรถ</a>
       <div class="navlbl">ตั้งค่า</div>
       <a data-s="drivers"><svg viewBox="0 0 24 24"><rect x="1" y="6" width="15" height="11" rx="2"/><path d="M16 9h4l3 3v5h-7z"/><circle cx="5.5" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/></svg>ทะเบียนคนรถ</a>
@@ -744,6 +745,50 @@
         </div>
       </section>
 
+      <!-- ============ IMPORT SPX ============ -->
+      <section class="screen" id="import">
+        <div class="ptitle"><h2>นำเข้า SPX &amp; กระทบยอด</h2><span class="en">Import &amp; match</span></div>
+        <div class="psub">นำเข้าไฟล์ Daily Record จาก Shopee (SPX) → ระบบจับคู่ด้วย Driver ID แล้วเทียบกับยอดที่คิดจ่ายคนรถ (SPDO) อัตโนมัติ — ไม่ต้องคีย์ฝั่งรายรับซ้ำ ใช้สถานะ Confirm/Reject ของ Shopee เป็นการกระทบยอด</div>
+
+        <div class="card" style="margin-bottom:18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+          <div style="flex:1;min-width:240px;border:1.5px dashed #bcc6d6;border-radius:11px;padding:18px;text-align:center;color:var(--muted);background:var(--soft);">
+            <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:var(--teal);fill:none;stroke-width:1.7;display:block;margin:0 auto 6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 9 12 4 17 9"/><line x1="12" y1="4" x2="12" y2="16"/></svg>
+            ลากไฟล์ <b>[SPX-LM] / [SPX-FM] … .xlsx</b> มาวาง หรือ <span style="color:var(--teal);font-weight:700">เลือกไฟล์</span>
+          </div>
+          <div style="flex:1;min-width:200px;">
+            <div class="mini">นำเข้าล่าสุด</div>
+            <div style="font-weight:700;color:var(--navy);font-size:13px;margin:3px 0">[SPX-LM] SPD 6_2026 Daily Records</div>
+            <div class="mini">35,113 แถว · 26 มิ.ย. 09:12 · โดย AD</div>
+            <span class="badge-ok" style="margin-top:8px"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> จับคู่ Driver ID สำเร็จ 99.4%</span>
+          </div>
+        </div>
+
+        <div class="grid4" style="margin-bottom:18px;">
+          <div class="metric"><div class="l">record นำเข้า</div><div class="v">35,113</div><div class="d flat">ทั้งเดือน · ทุก Hub</div></div>
+          <div class="metric"><div class="l">Shopee Confirm</div><div class="v" style="color:var(--green)">34,890</div><div class="d up">99.4%</div></div>
+          <div class="metric" style="background:var(--red-soft);border-color:#f3c6c0"><div class="l">ต้องตรวจ (Reject/ขอแก้ไข)</div><div class="v" style="color:var(--red)">223</div><div class="d down">0.6% · รอดำเนินการ</div></div>
+          <div class="metric hero"><div class="l">ส่วนต่างที่ต้องเคลม</div><div class="v">฿6,425</div><div class="d">เทียบ SPDO-calc</div></div>
+        </div>
+
+        <div class="card" style="padding:4px 0;">
+          <h3 style="padding:14px 18px 0">รายการที่นำเข้า — จับคู่ Driver ID + เทียบยอด (ตัวอย่าง)</h3>
+          <table>
+            <thead><tr><th style="padding-left:18px">วันที่</th><th>Driver ID</th><th>คนรถ</th><th class="c">งาน</th><th class="r">ยอด SPX (Shopee)</th><th class="r">ยอด SPDO (จ่ายรถ)</th><th class="r">ส่วนต่าง</th><th class="c" style="padding-right:18px">สถานะ Shopee</th></tr></thead>
+            <tbody class="tnum">
+              <tr><td style="padding-left:18px">1 มิ.ย.</td><td>10116</td><td>คนรถ 16</td><td class="c"><span class="pill t2">FM</span></td><td class="r">฿1,358.80</td><td class="r">฿1,100</td><td class="r">+฿258.80</td><td class="c" style="padding-right:18px"><span class="pill ok">Confirm</span></td></tr>
+              <tr><td style="padding-left:18px">1 มิ.ย.</td><td>10117</td><td>คนรถ 17</td><td class="c"><span class="pill t2">FM</span></td><td class="r">฿1,358.80</td><td class="r">฿1,100</td><td class="r">+฿258.80</td><td class="c" style="padding-right:18px"><span class="pill ok">Confirm</span></td></tr>
+              <tr><td style="padding-left:18px">2 มิ.ย.</td><td>10107</td><td>คนรถ 07</td><td class="c"><span class="pill t4">LM</span></td><td class="r">฿742</td><td class="r">฿590</td><td class="r">+฿152</td><td class="c" style="padding-right:18px"><span class="pill ok">Confirm</span></td></tr>
+              <tr class="warn"><td style="padding-left:18px">2 มิ.ย.</td><td>10109</td><td>คนรถ 09</td><td class="c"><span class="pill t4">LM</span></td><td class="r">฿0</td><td class="r">฿533</td><td class="r" style="color:var(--red);font-weight:700">−฿533</td><td class="c" style="padding-right:18px"><span class="pill bad">Reject</span></td></tr>
+              <tr class="warn"><td style="padding-left:18px">3 มิ.ย.</td><td>10118</td><td>คนรถ 18</td><td class="c"><span class="pill t2">FM</span></td><td class="r">฿2,100</td><td class="r">฿1,400</td><td class="r" style="color:var(--amber)">ขอแก้ไข CBM</td><td class="c" style="padding-right:18px"><span class="pill wait">ขอแก้ไข</span></td></tr>
+              <tr><td colspan="8" style="text-align:center;color:var(--muted);font-size:11.5px;padding:9px">+ อีก 35,108 แถว · กรองดูเฉพาะที่ “ต้องตรวจ” ได้</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="recobox" style="margin-top:16px;">
+          <b style="color:var(--teal-d)">ทำไมหน้านี้สำคัญ:</b> <span class="small">เดิม SPX ฝั่งรายรับต้องคีย์มือเข้า Google Sheet หลายชีต — ระบบใหม่ <b>import ไฟล์ Shopee ตรงๆ</b> จับคู่ Driver ID อัตโนมัติ แล้วชี้ทันทีว่าแถวไหน Shopee ปฏิเสธ/ขอแก้ไข หรือยอดไม่ตรงกับที่เราคิดจ่ายคนรถ → ตามเคลม/แก้ได้ก่อนปิดรอบ</span>
+        </div>
+      </section>
+
       <!-- ============ PLAN (proposal) ============ -->
       <section class="screen" id="plan">
         <div class="ptitle"><h2>แผนงานพัฒนา</h2><span class="en">Project proposal</span></div>
@@ -771,7 +816,7 @@
 </dialog>
 
 <script>
-  const titles={driverview:'หน้าของฉัน',dash:'แดชบอร์ด',summary:'ใบคุมเที่ยว',entry:'บันทึกรายวัน',reco:'กระทบยอด Settlement',slip:'ใบจ่ายคนรถ',drivers:'ทะเบียนคนรถ',rates:'ตารางเรท (Rate Card)',plan:'แผนงานพัฒนา'};
+  const titles={driverview:'หน้าของฉัน',dash:'แดชบอร์ด',summary:'ใบคุมเที่ยว',entry:'บันทึกรายวัน',reco:'กระทบยอด Settlement',import:'นำเข้า SPX & กระทบยอด',slip:'ใบจ่ายคนรถ',drivers:'ทะเบียนคนรถ',rates:'ตารางเรท (Rate Card)',plan:'แผนงานพัฒนา'};
   function sizePlan(){try{var f=document.getElementById('planframe');if(f&&f.contentWindow&&f.contentWindow.document&&f.contentWindow.document.documentElement){var h=f.contentWindow.document.documentElement.scrollHeight;if(h>200)f.style.height=(h+24)+'px';}}catch(e){}}
   let current='dash';
   function go(s){
