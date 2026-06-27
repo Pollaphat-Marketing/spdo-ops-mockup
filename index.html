@@ -224,7 +224,7 @@
   body[data-role="admin"] .money{display:none !important;}
   body[data-role="admin"] .nav a[data-s="rates"],body[data-role="admin"] .nav a[data-s="plan"],body[data-role="admin"] .nav a[data-s="reco"],body[data-role="admin"] .nav a[data-s="slip"],body[data-role="admin"] .nav a[data-s="import"],body[data-role="admin"] .navlbl.doc{display:none;}
   body:not([data-role="driver"]) .nav a[data-s="driverview"]{display:none;}
-  body[data-role="driver"] .nav a:not([data-s="driverview"]),body[data-role="driver"] .navlbl{display:none;}
+  body[data-role="driver"] .nav a:not([data-s="driverview"]):not([data-s="help"]),body[data-role="driver"] .navlbl:not(.help-lbl){display:none;}
   body[data-role="driver"] .pickr{display:none;}
   body[data-role="driver"] .navlbl.drv{display:block;}
   .navlbl.drv{display:none;}
@@ -245,6 +245,24 @@
   .miniform .send{background:var(--teal);color:#fff;text-align:center;padding:9px;border-radius:9px;font-weight:700;font-size:12.5px;margin-top:12px;}
   .miniform.fuel h4 .n{background:var(--orange);} .miniform.adv h4 .n{background:var(--navy2);}
   @media (max-width:820px){ .forms3,.drv-stats{grid-template-columns:1fr;} }
+
+  /* HELP / ROLE GUIDE PAGE */
+  [data-role-only]{display:none;}
+  body[data-role="owner"] [data-role-only="owner"],body[data-role="admin"] [data-role-only="admin"],body[data-role="driver"] [data-role-only="driver"]{display:block;}
+  .guide-hero{border-radius:14px;padding:16px 20px;margin-bottom:16px;color:#fff;}
+  .guide-hero.owner{background:#1f3343;} .guide-hero.admin{background:#8a5e0c;} .guide-hero.driver{background:var(--teal-d);}
+  .guide-hero .r{font-size:10px;letter-spacing:1px;text-transform:uppercase;opacity:.85;}
+  .guide-hero h3{color:#fff;font-size:17px;margin-top:3px;} .guide-hero p{font-size:11.5px;opacity:.93;margin-top:5px;line-height:1.55;}
+  h3.gh{font-size:13px;color:var(--navy);margin:16px 0 8px;border-left:3px solid var(--teal);padding-left:8px;}
+  .flow{display:flex;gap:10px;flex-wrap:wrap;}
+  .flow .step{flex:1;min-width:148px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;}
+  .flow .step .num{width:22px;height:22px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:7px;}
+  .flow .step b{font-size:12px;color:var(--navy);display:block;margin-bottom:2px;} .flow .step span{font-size:10.6px;color:var(--muted);}
+  .guidegrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .guidegrid .card h3{font-size:12.5px;margin-bottom:6px;}
+  .guidegrid ul{margin:0;padding-left:16px;} .guidegrid li{font-size:11.3px;margin:4px 0;color:var(--ink);}
+  .guidegrid li.no{color:var(--muted);} .guidegrid li.no::marker{color:var(--red);}
+  @media (max-width:820px){ .guidegrid{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
@@ -269,6 +287,8 @@
       <a data-s="rates"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.3-2.5H9.5l-.3 2.5a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.3 2.5h4.9l.3-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg>ตารางเรท (Rate Card)</a>
       <div class="navlbl doc">เอกสาร</div>
       <a data-s="plan"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>แผนงานพัฒนา</a>
+      <div class="navlbl help-lbl">ช่วยเหลือ</div>
+      <a data-s="help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .8-1 1.7"/><line x1="12" y1="17" x2="12" y2="17"/></svg>คู่มือการใช้งาน</a>
     </div>
     <div class="foot">Prototype · ข้อมูลตัวอย่างจากไฟล์จริง<br>Pollaphat × SPDO · มิ.ย. 2026</div>
   </aside>
@@ -789,6 +809,62 @@
         </div>
       </section>
 
+      <!-- ============ HELP / ROLE GUIDE ============ -->
+      <section class="screen" id="help">
+        <div class="ptitle"><h2>คู่มือการใช้งาน</h2><span class="en">User guide</span></div>
+        <div class="psub">ภาพรวมและขั้นตอนการใช้งานระบบ — เนื้อหาปรับตามบทบาทที่ล็อกอิน (ลองสลับที่ “มุมมอง” มุมบนขวา)</div>
+
+        <div data-role-only="owner">
+          <div class="guide-hero owner"><div class="r">สำหรับเจ้าของ (Owner)</div><h3>เห็นทั้งระบบ · ตั้งเรท · อนุมัติจ่าย</h3><p>คุณเห็นรายรับ–ต้นทุน–กำไรทุกประเภทงาน (LM/FM/LH) ทุก Hub ในที่เดียว · ควบคุมเรท · กระทบยอดกับ Shopee · อนุมัติและส่งใบจ่ายคนรถ</p></div>
+          <h3 class="gh">ขั้นตอนรายเดือน</h3>
+          <div class="flow">
+            <div class="step"><div class="num">1</div><b>นำเข้าไฟล์ SPX</b><span>รายรับ + ลงเวลา (ATT) เข้าระบบอัตโนมัติ</span></div>
+            <div class="step"><div class="num">2</div><b>ฝั่งจ่ายถูกกรอก</b><span>คนรถ/แอดมินกรอกงานรายวัน + น้ำมัน + เบิก</span></div>
+            <div class="step"><div class="num">3</div><b>ดูแดชบอร์ด</b><span>กำไรรวม + ใบคุมเที่ยว + คนรถผิดปกติ</span></div>
+            <div class="step"><div class="num">4</div><b>กระทบยอด</b><span>เทียบ Shopee Confirm/Reject แล้วตามเคลมส่วนต่าง</span></div>
+            <div class="step"><div class="num">5</div><b>จ่ายเงิน</b><span>ออกใบจ่าย → ส่งเข้า LINE คนรถ</span></div>
+          </div>
+          <h3 class="gh">หน้าที่ใช้ &amp; เคล็ดลับ</h3>
+          <div class="guidegrid">
+            <div class="card"><h3>หน้าที่ใช้บ่อย</h3><ul><li>แดชบอร์ด — ภาพรวมทั้งบริษัท</li><li>นำเข้า SPX + กระทบยอด — ตามเงินที่ขาด</li><li>ตารางเรท — ตั้งเรทรวม/รายบุคคล</li><li>ใบจ่ายคนรถ — ส่ง LINE</li></ul></div>
+            <div class="card"><h3>เคล็ดลับ</h3><ul><li>สลับ <b>LM / FM / LH</b> ที่ปุ่มมุมบน</li><li>ดูย้อนหลังรายเดือน + กราฟได้</li><li>export Excel ให้บัญชี</li><li>เรทแบบ versioned — แก้แล้วบิลเก่ายังถูก</li></ul></div>
+          </div>
+        </div>
+
+        <div data-role-only="admin">
+          <div class="guide-hero admin"><div class="r">สำหรับแอดมิน (Admin)</div><h3>คุมการวิ่งงาน · ดูสถานะคนรถ</h3><p>คุณดูแลการคุมเที่ยวและสถานะคนรถประจำวัน กรอกข้อมูลแทนคนรถได้ — แต่จะ<b>ไม่เห็นข้อมูลการเงิน/กำไร/เรท</b> (เฉพาะเจ้าของ)</p></div>
+          <h3 class="gh">ขั้นตอนประจำวัน</h3>
+          <div class="flow">
+            <div class="step"><div class="num">1</div><b>เปิดแดชบอร์ด</b><span>ดูแจ้งเตือนคนรถ/ข้อมูลผิดปกติของวัน</span></div>
+            <div class="step"><div class="num">2</div><b>ตรวจ/กรอกแทน</b><span>เช็กบันทึกรายวัน กรอกแทนคนรถถ้าจำเป็น</span></div>
+            <div class="step"><div class="num">3</div><b>ติดต่อคนรถ</b><span>โทรหาคนที่ขาด/ข้อมูลไม่ครบ</span></div>
+            <div class="step"><div class="num">4</div><b>ดูใบคุมเที่ยว</b><span>สถานะการวิ่งงานรวมแต่ละคน</span></div>
+          </div>
+          <h3 class="gh">สิทธิ์การใช้งาน</h3>
+          <div class="guidegrid">
+            <div class="card"><h3>ทำได้</h3><ul><li>ดูแดชบอร์ด (เฉพาะส่วนปฏิบัติการ)</li><li>คุมเที่ยว + สถานะคนรถรายวัน</li><li>กรอกข้อมูลแทนคนรถ</li><li>ดูทะเบียนคนรถ</li></ul></div>
+            <div class="card"><h3>ทำไม่ได้ (เฉพาะเจ้าของ)</h3><ul><li class="no">ดูกำไร / มาร์จิ้น / ต้นทุน</li><li class="no">ตั้งค่าเรท</li><li class="no">ใบจ่ายคนรถ / กระทบยอด</li><li class="no">นำเข้า/ดูยอด SPX</li></ul></div>
+          </div>
+        </div>
+
+        <div data-role-only="driver">
+          <div class="guide-hero driver"><div class="r">สำหรับคนรถ (Driver)</div><h3>กรอกงานของตัวเอง · ดูเงินของตัวเอง</h3><p>คุณเห็นเฉพาะงานและเงินของตัวเอง (ไม่เห็นของคนอื่น) — กรอกงาน/น้ำมัน/เบิกเองผ่านเว็บหรือ LINE แล้วระบบคิดค่าแรงให้ทันที</p></div>
+          <h3 class="gh">ขั้นตอนประจำวัน</h3>
+          <div class="flow">
+            <div class="step"><div class="num">1</div><b>เข้าระบบ</b><span>ผ่านเว็บหรือ LINE — เห็นเฉพาะของตัวเอง</span></div>
+            <div class="step"><div class="num">2</div><b>กรอกงานวันนี้</b><span>รับเข้า/จ่ายออก → ค่าแรงเด้งทันที</span></div>
+            <div class="step"><div class="num">3</div><b>กรอกน้ำมัน</b><span>ค่าน้ำมัน/ฟีดการ์ด + แนบรูปสลิป</span></div>
+            <div class="step"><div class="num">4</div><b>ขอเบิก</b><span>ถ้ามี — ระบุจำนวน + เหตุผล</span></div>
+            <div class="step"><div class="num">5</div><b>ดูยอดของฉัน</b><span>งวดนี้ได้เท่าไร + ยอดค้างรับ + ประวัติ</span></div>
+          </div>
+          <h3 class="gh">สิ่งที่คุณเห็น &amp; ฟอร์มที่ใช้</h3>
+          <div class="guidegrid">
+            <div class="card"><h3>คุณเห็น</h3><ul><li>โปรไฟล์ + งานที่รับได้ (LM/FM/LH)</li><li>ยอดงวดนี้ / ยอดค้างรับ / งวดหน้า</li><li>ประวัติงานย้อนหลังของตัวเอง</li><li class="no">ไม่เห็นข้อมูลคนรถคนอื่น</li></ul></div>
+            <div class="card"><h3>3 ฟอร์มหลัก</h3><ul><li><b>1.</b> บันทึกงาน (รับเข้า/จ่ายออก)</li><li><b>2.</b> ฟีดการ์ด / น้ำมัน</li><li><b>3.</b> ขอเบิก</li></ul></div>
+          </div>
+        </div>
+      </section>
+
       <!-- ============ PLAN (proposal) ============ -->
       <section class="screen" id="plan">
         <div class="ptitle"><h2>แผนงานพัฒนา</h2><span class="en">Project proposal</span></div>
@@ -816,7 +892,7 @@
 </dialog>
 
 <script>
-  const titles={driverview:'หน้าของฉัน',dash:'แดชบอร์ด',summary:'ใบคุมเที่ยว',entry:'บันทึกรายวัน',reco:'กระทบยอด Settlement',import:'นำเข้า SPX & กระทบยอด',slip:'ใบจ่ายคนรถ',drivers:'ทะเบียนคนรถ',rates:'ตารางเรท (Rate Card)',plan:'แผนงานพัฒนา'};
+  const titles={driverview:'หน้าของฉัน',dash:'แดชบอร์ด',summary:'ใบคุมเที่ยว',entry:'บันทึกรายวัน',reco:'กระทบยอด Settlement',import:'นำเข้า SPX & กระทบยอด',slip:'ใบจ่ายคนรถ',drivers:'ทะเบียนคนรถ',rates:'ตารางเรท (Rate Card)',plan:'แผนงานพัฒนา',help:'คู่มือการใช้งาน'};
   function sizePlan(){try{var f=document.getElementById('planframe');if(f&&f.contentWindow&&f.contentWindow.document&&f.contentWindow.document.documentElement){var h=f.contentWindow.document.documentElement.scrollHeight;if(h>200)f.style.height=(h+24)+'px';}}catch(e){}}
   let current='dash';
   function go(s){
@@ -888,6 +964,7 @@
   // Role switcher (owner/admin/driver)
   function setRole(r){
     document.body.dataset.role=r;
+    var rs=document.getElementById('roleSel');if(rs)rs.value=r;
     var av=document.querySelector('.avatar');
     if(av)av.textContent = r==='driver'?'07':(r==='admin'?'AD':'นพ');
     if(r==='driver')go('driverview');
